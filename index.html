@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO & Primary Meta Tags -->
+  <title>Welcome Motor | Premium Car Dealership in Rawalpindi | Arslan Farooq</title>
+  <meta name="title" content="Welcome Motor | Premium Car Dealership in Rawalpindi | Arslan Farooq">
+  <meta name="description" content="Welcome Motor - 17 Years of Trust & 2,179+ Cars Driven Home. Owned by Arslan Farooq at Rawalpindi Cricket Stadium. Certified used & imported luxury vehicles. Open 24/7. Call/WhatsApp 0313-3884499.">
+  <meta name="keywords" content="Welcome Motor, Arslan Farooq, Rawalpindi Cricket Stadium car showroom, used cars Rawalpindi, imported cars Islamabad, Toyota Fortuner, Honda Civic, luxury cars Pakistan, buy car Rawalpindi">
+  <meta name="author" content="Welcome Motor">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Social Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Welcome Motor | 17 Years of Trust. 2,179 Cars Driven Home.">
+  <meta property="og:description" content="Rawalpindi's trusted car dealership at Rawalpindi Cricket Stadium. Open 24/7.">
+  <meta property="og:image" content="assets/logo/welcome-motor-logo.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo/welcome-motor-logo.png">
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- Supabase JS Library from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- ========================================================================
+       1. STICKY MODERN LUXURY NAVIGATION BAR
+       ======================================================================== -->
+  <nav class="navbar" id="mainNavbar">
+    <div class="container navbar-container">
+      <!-- Brand Logo & Name -->
+      <a href="#home" class="brand-logo-link" title="Welcome Motor Home">
+        <div class="brand-logo-wrapper">
+          <img src="assets/logo/welcome-motor-logo.png" alt="Welcome Motor Logo" class="brand-logo-img">
+        </div>
+        <div class="brand-text-block">
+          <span class="brand-name">WELCOME <span class="red-accent">MOTOR</span></span>
+          <span class="brand-tagline-nav">17 Years of Trust</span>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#inventory" class="nav-link">Inventory</a></li>
+        <li><a href="#why-choose-us" class="nav-link">Why Choose Us</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#reviews" class="nav-link">Reviews</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+        <li style="margin-top: 0.5rem; display: flex; justify-content: center;">
+          <a href="admin/login.html" class="nav-admin-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <span>Staff Portal</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Action Buttons -->
+      <div class="nav-actions">
+        <a href="tel:03133884499" class="nav-phone-btn dynamic-phone-link" title="Call Showroom (0313-3884499)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          <span class="nav-phone-text phone-text">0313-3884499</span>
+        </a>
+
+        <div class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========================================================================
+       2. HERO SECTION
+       ======================================================================== -->
+  <section class="hero-section" id="home">
+    <!-- HERO BACKGROUND VIDEO WRAPPER -->
+    <div class="hero-video-container" id="heroVideoContainer">
+      <video id="heroBgVideo" class="hero-bg-video" autoplay muted loop playsinline preload="auto" poster="assets/images/fortuner_legender.jpg">
+        <source src="assets/videos/welcome-motors-luxury-car-pack.mp4" id="heroVideoSource" type="video/mp4">
+      </video>
+      <div class="hero-video-overlay" id="heroVideoOverlay"></div>
+    </div>
+    <div class="hero-glow-bg"></div>
+
+    <!-- Background Video Audio Control Pill -->
+    <div class="hero-video-controls" id="heroVideoControls">
+      <button class="hero-video-ctrl-btn" id="heroVideoMuteBtn" title="Toggle Sound">
+        <svg id="heroAudioMutedIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+        <svg id="heroAudioUnmutedIcon" style="display: none;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+        <span id="heroAudioLabel">Sound Off</span>
+      </button>
+    </div>
+
+    <div class="container hero-content">
+      <div class="hero-badge-pill anim-hero-badge">
+        <span class="hero-badge-dot"></span>
+        <span>Rawalpindi Cricket Stadium • Open 24/7</span>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="anim-hero-line-1">PREMIER AUTOMOTIVE EXCELLENCE AT</span>
+        <span class="brand-title-red red-gradient-text anim-hero-line-2">WELCOME MOTOR</span>
+      </h1>
+
+      <p class="hero-tagline-quote anim-hero-subtitle">
+        &ldquo;<span>17 Years of Trust.</span> 2,179 Cars Driven Home.&rdquo;
+      </p>
+
+      <div class="hero-cta-group anim-hero-cta">
+        <a href="#inventory" class="btn btn-primary btn-lg">
+          <span>Browse Showroom Inventory</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+        <a href="https://wa.me/923133884499" target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg dynamic-wa-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.07-1.115-.067-.282-.091-.643-.231-1.109-.434-1.957-.852-3.232-2.827-3.33-2.957-.099-.13-1.025-1.36-1.025-2.593 0-1.233.647-1.84.877-2.091.229-.251.5-.313.667-.313.167 0 .334.002.48.009.153.007.359-.058.56.425.209.502.712 1.737.775 1.863.063.126.104.273.021.439-.083.166-.125.27-.249.416-.125.147-.263.328-.376.44-.125.126-.255.263-.11.512.146.25 1.488 1.488 2.87 2.062.25.104.396.084.542-.084.146-.167.625-.729.792-.979.167-.25.334-.209.563-.125.23.084 1.46.688 1.71.813.25.125.417.188.479.292.063.104.063.604-.081 1.009z"/></svg>
+          <span>Chat on WhatsApp</span>
+        </a>
+      </div>
+
+      <!-- TRUST & PERFORMANCE METRICS -->
+      <div class="hero-stats-grid anim-hero-stats" id="heroStatsGrid">
+        <div class="stat-item">
+          <div class="stat-number"><span class="stat-count-val" id="statYears" data-target="17" data-suffix="+">17<span class="highlight">+</span></span></div>
+          <div class="stat-label">Years of Legacy</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number"><span class="stat-count-val" id="statCars" data-target="2179" data-format="comma" data-suffix="+">2,179<span class="highlight">+</span></span></div>
+          <div class="stat-label">Cars Sold</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number"><span class="stat-count-val" id="statRating" data-target="4.8" data-decimals="1" data-suffix=" ★">4.8<span class="highlight">★</span></span></div>
+          <div class="stat-label">Google Rating</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number"><span class="stat-count-val" id="statHours" data-target="24" data-type="hours" data-suffix="/7">24<span class="highlight">/7</span></span></div>
+          <div class="stat-label">Always Open</div>
+        </div>
+      </div>
+
+      <!-- QUICK SEARCH BOX -->
+      <div class="quick-search-box anim-hero-search">
+        <form class="quick-search-form" onsubmit="handleHeroSearch(event)">
+          <div class="search-field-group">
+            <label>Brand / Make</label>
+            <select id="heroSearchBrand" class="search-select">
+              <option value="">All Makes & Brands</option>
+              <option value="Toyota">Toyota</option>
+              <option value="Mercedes-Benz">Mercedes-Benz</option>
+              <option value="Honda">Honda</option>
+              <option value="Audi">Audi</option>
+              <option value="BMW">BMW</option>
+              <option value="Hyundai">Hyundai</option>
+              <option value="KIA">KIA</option>
+              <option value="MG">MG</option>
+              <option value="Haval">Haval</option>
+              <option value="Suzuki">Suzuki</option>
+            </select>
+          </div>
+
+          <div class="search-field-group">
+            <label>Budget Range</label>
+            <select id="heroSearchBudget" class="search-select">
+              <option value="">Any Budget</option>
+              <option value="10000000">Under 1.0 Crore</option>
+              <option value="20000000">Under 2.0 Crore</option>
+              <option value="50000000">Under 5.0 Crore</option>
+              <option value="120000000">Under 12.0 Crore</option>
+            </select>
+          </div>
+
+          <div class="search-field-group">
+            <label>Model Year</label>
+            <select id="heroSearchYear" class="search-select">
+              <option value="">Any Year</option>
+              <option value="2024">2024 & Newer</option>
+              <option value="2023">2023 & Newer</option>
+              <option value="2022">2022 & Newer</option>
+              <option value="2020">2020 & Newer</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="height: 44px; margin-top: auto;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <span>Search</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       3. FEATURED VEHICLES (ONLY IF MARKED FEATURED)
+       ======================================================================== -->
+  <section class="section section-dark" id="featuredSection" style="display: none;">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Handpicked Selection</span>
+        <h2 class="section-title">Featured Showroom Vehicles</h2>
+        <p class="section-subtitle">Exclusively certified, pristine condition vehicles currently featured on our showroom floor.</p>
+      </div>
+      <div class="inventory-grid" id="featuredVehiclesGrid"></div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       4. INVENTORY BROWSER & FILTERS (SEHGAL MOTORSPORTS ARRANGEMENT)
+       ======================================================================== -->
+  <section class="section" id="inventory">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Verified Showroom Collection</span>
+        <h2 class="section-title">Explore Our Luxury Inventory</h2>
+        <p class="section-subtitle">Browse through certified pre-owned and brand-new luxury automobiles available at Rawalpindi Cricket Stadium.</p>
+      </div>
+
+      <!-- INVENTORY CATEGORY TABS -->
+      <div class="inventory-nav-wrapper">
+        <div class="category-tabs-container">
+          <button type="button" class="category-tab-btn active" data-category="all" onclick="selectCategory('all', this)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            <span>All Inventory</span>
+            <span class="category-tab-count" id="catCountAll">6</span>
+          </button>
+
+          <button type="button" class="category-tab-btn" data-category="suv" onclick="selectCategory('suv', this)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><path d="M9 17h6"></path><circle cx="17" cy="17" r="2"></circle></svg>
+            <span>Luxury SUVs & 4x4</span>
+            <span class="category-tab-count" id="catCountSuv">3</span>
+          </button>
+
+          <button type="button" class="category-tab-btn" data-category="sedan" onclick="selectCategory('sedan', this)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H7.5a1 1 0 0 0-.8.4L4 11l-5.16.86A1 1 0 0 0 -2 12.85V16h3"></path><circle cx="6.5" cy="16.5" r="2.5"></circle><circle cx="16.5" cy="16.5" r="2.5"></circle></svg>
+            <span>Executive Sedans</span>
+            <span class="category-tab-count" id="catCountSedan">2</span>
+          </button>
+
+          <button type="button" class="category-tab-btn" data-category="hybrid_ev" onclick="selectCategory('hybrid_ev', this)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            <span>Hybrids & Electric (EV)</span>
+            <span class="category-tab-count" id="catCountEv">2</span>
+          </button>
+
+          <button type="button" class="category-tab-btn" data-category="import" onclick="selectCategory('import', this)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            <span>Fresh Japanese Imports</span>
+            <span class="category-tab-count" id="catCountImport">4</span>
+          </button>
+        </div>
+
+        <!-- BRAND SELECTOR PILLS -->
+        <div class="brand-pills-bar">
+          <button type="button" class="brand-pill-btn active" data-brand="" onclick="selectBrandPill('', this)">All Brands</button>
+          <button type="button" class="brand-pill-btn" data-brand="Toyota" onclick="selectBrandPill('Toyota', this)">Toyota</button>
+          <button type="button" class="brand-pill-btn" data-brand="Mercedes-Benz" onclick="selectBrandPill('Mercedes-Benz', this)">Mercedes-Benz</button>
+          <button type="button" class="brand-pill-btn" data-brand="Audi" onclick="selectBrandPill('Audi', this)">Audi</button>
+          <button type="button" class="brand-pill-btn" data-brand="Honda" onclick="selectBrandPill('Honda', this)">Honda</button>
+          <button type="button" class="brand-pill-btn" data-brand="BMW" onclick="selectBrandPill('BMW', this)">BMW</button>
+          <button type="button" class="brand-pill-btn" data-brand="Haval" onclick="selectBrandPill('Haval', this)">Haval</button>
+          <button type="button" class="brand-pill-btn" data-brand="Hyundai" onclick="selectBrandPill('Hyundai', this)">Hyundai</button>
+          <button type="button" class="brand-pill-btn" data-brand="KIA" onclick="selectBrandPill('KIA', this)">KIA</button>
+        </div>
+      </div>
+
+      <!-- FILTER CONTROLS PANEL -->
+      <div class="inventory-controls-panel">
+        <form id="inventoryFilterForm" onsubmit="event.preventDefault(); applyFilters();">
+          <div class="filter-row-primary">
+            <div class="filter-group">
+              <label>Instant Search</label>
+              <input type="text" id="filterKeyword" class="filter-control" placeholder="Search by make, model, variant, color, city..." oninput="applyFilters()">
+            </div>
+
+            <div class="filter-group">
+              <label>Brand / Make</label>
+              <select id="filterBrand" class="filter-control" onchange="applyFilters()">
+                <option value="">All Makes</option>
+                <option value="Toyota">Toyota</option>
+                <option value="Mercedes-Benz">Mercedes-Benz</option>
+                <option value="Audi">Audi</option>
+                <option value="Honda">Honda</option>
+                <option value="BMW">BMW</option>
+                <option value="Haval">Haval</option>
+                <option value="Hyundai">Hyundai</option>
+                <option value="KIA">KIA</option>
+                <option value="MG">MG</option>
+                <option value="Suzuki">Suzuki</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label>Min Price (PKR)</label>
+              <select id="filterMinPrice" class="filter-control" onchange="applyFilters()">
+                <option value="">No Min</option>
+                <option value="5000000">50 Lacs</option>
+                <option value="10000000">1.0 Crore</option>
+                <option value="20000000">2.0 Crore</option>
+                <option value="40000000">4.0 Crore</option>
+                <option value="80000000">8.0 Crore</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label>Max Price (PKR)</label>
+              <select id="filterMaxPrice" class="filter-control" onchange="applyFilters()">
+                <option value="">No Max</option>
+                <option value="10000000">1.0 Crore</option>
+                <option value="20000000">2.0 Crore</option>
+                <option value="40000000">4.0 Crore</option>
+                <option value="80000000">8.0 Crore</option>
+                <option value="150000000">15.0 Crore</option>
+              </select>
+            </div>
+
+            <button type="button" class="btn btn-outline btn-sm" onclick="resetFilters()" style="height: 40px;">
+              <span>Reset</span>
+            </button>
+          </div>
+
+          <div class="filter-row-secondary">
+            <div class="filter-group">
+              <label>Condition</label>
+              <select id="filterCondition" class="filter-control" onchange="applyFilters()">
+                <option value="">All Conditions</option>
+                <option value="Brand New">Brand New</option>
+                <option value="Used">Certified Pre-Owned</option>
+                <option value="Unregistered">Unregistered / Fresh Import</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label>Transmission</label>
+              <select id="filterTransmission" class="filter-control" onchange="applyFilters()">
+                <option value="">All Transmissions</option>
+                <option value="Automatic">Automatic</option>
+                <option value="Manual">Manual</option>
+                <option value="CVT">CVT</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label>Fuel Type</label>
+              <select id="filterFuel" class="filter-control" onchange="applyFilters()">
+                <option value="">All Fuels</option>
+                <option value="Petrol">Petrol</option>
+                <option value="Hybrid">Hybrid</option>
+                <option value="Diesel">Diesel</option>
+                <option value="Electric">Electric (EV)</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label>Sort By</label>
+              <select id="filterSort" class="filter-control" onchange="applyFilters()">
+                <option value="newest">Latest Added</option>
+                <option value="price_asc">Price: Low to High</option>
+                <option value="price_desc">Price: High to Low</option>
+                <option value="year_desc">Year: Newest First</option>
+                <option value="mileage_asc">Mileage: Lowest First</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- INVENTORY META BAR & VIEW SWITCHER -->
+      <div class="inventory-meta-bar">
+        <div class="inventory-count-text" id="inventoryCount">
+          Showing <strong>...</strong> vehicles in showroom
+        </div>
+
+        <div class="inventory-toolbar-actions">
+          <div class="view-mode-toggle">
+            <button type="button" class="view-mode-btn active" id="viewModeGrid" onclick="setViewMode('grid')" title="Grid View">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            </button>
+            <button type="button" class="view-mode-btn" id="viewModeList" onclick="setViewMode('list')" title="List View">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VEHICLE CARDS GRID (SEHGAL MOTORSPORTS INSPIRED) -->
+      <div class="inventory-grid" id="inventoryGrid">
+        <!-- Rendered dynamically via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       5. WHY CHOOSE US / TRUST PILLARS
+       ======================================================================== -->
+  <section class="section section-dark" id="why-choose-us">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Uncompromised Standard</span>
+        <h2 class="section-title">Why Welcome Motor?</h2>
+        <p class="section-subtitle">Since 2007, we have earned the trust of 2,179+ car enthusiasts and families across Pakistan.</p>
+      </div>
+
+      <div class="trust-grid">
+        <div class="trust-card">
+          <div class="trust-icon-box">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          </div>
+          <h3 class="trust-card-title">17 Years of Trust</h3>
+          <p class="trust-card-text">Nearly two decades of reputable dealership service led personally by Arslan Farooq at Rawalpindi Cricket Stadium.</p>
+        </div>
+
+        <div class="trust-card">
+          <div class="trust-icon-box">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          </div>
+          <h3 class="trust-card-title">100% Verified Documents</h3>
+          <p class="trust-card-text">Complete biometric transfer assistance, genuine excise verification, and authenticated vehicle inspection history.</p>
+        </div>
+
+        <div class="trust-card">
+          <div class="trust-icon-box">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          </div>
+          <h3 class="trust-card-title">Open 24/7 For You</h3>
+          <p class="trust-card-text">Round-the-clock availability for test drives, vehicle inspections, and urgent car consultations in the twin cities.</p>
+        </div>
+
+        <div class="trust-card">
+          <div class="trust-icon-box">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+          </div>
+          <h3 class="trust-card-title">2,179+ Happy Owners</h3>
+          <p class="trust-card-text">A legacy measured in thousands of successful deliveries and satisfied clients driving with confidence.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       6. ABOUT US & OWNER LEGACY
+       ======================================================================== -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image-column">
+          <div class="about-image-wrapper">
+            <img src="assets/logo/welcome-motor-logo.png" alt="Welcome Motor Dealership" style="padding: 2.5rem; object-fit: contain; background: #FFFFFF;">
+          </div>
+          <div class="about-badge-float">
+            <span class="num">17+</span>
+            <span class="txt">Years of Trust</span>
+          </div>
+        </div>
+
+        <div>
+          <span class="section-tag">About Welcome Motor</span>
+          <h2 class="section-title">Driven by Honesty, Built on Integrity</h2>
+          <p class="about-lead-quote">
+            &ldquo;At Welcome Motor, every deal is anchored in total transparency and genuine customer satisfaction.&rdquo;
+          </p>
+          <p class="about-body-p">
+            Located at the prestigious <strong>Rawalpindi Cricket Stadium</strong>, Welcome Motor has grown into one of the twin cities' most trusted automotive hubs under the visionary leadership of <strong>Arslan Farooq</strong>.
+          </p>
+          <p class="about-body-p">
+            Whether you are upgrading to an executive SUV, importing a Japanese hybrid, or purchasing your family's first sedan, our dedicated team ensures you drive home with complete peace of mind.
+          </p>
+
+          <div class="owner-profile-card">
+            <div class="owner-avatar">AF</div>
+            <div class="owner-info">
+              <div class="name dynamic-owner">Arslan Farooq</div>
+              <div class="role">Founder & Chief Executive • Welcome Motor</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       7. REVIEWS & 4.8★ GOOGLE RATINGS
+       ======================================================================== -->
+  <section class="section section-dark" id="reviews">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Client Feedback</span>
+        <h2 class="section-title">What Our Customers Say</h2>
+        <p class="section-subtitle">Real feedback from clients who purchased their dream vehicles from Welcome Motor.</p>
+      </div>
+
+      <div class="reviews-summary-card">
+        <div class="rating-score-box">
+          <div class="rating-huge-num">4.8</div>
+          <div>
+            <div class="stars-group">★★★★★</div>
+            <div style="font-weight: 700; color: #111827; font-size: 1.1rem;">Google Customer Rating</div>
+            <div style="font-size: 0.875rem; color: #6B7280;">Based on verified dealership interactions</div>
+          </div>
+        </div>
+
+        <div>
+          <a href="https://maps.app.goo.gl/shWDXxyVJ9MNbEK27" target="_blank" rel="noopener" class="btn btn-outline">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span>View on Google Maps</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer-meta">
+              <div class="reviewer-avatar">MK</div>
+              <div>
+                <div class="reviewer-name">Muhammad Kashif</div>
+                <div class="reviewer-car">Purchased Toyota Fortuner</div>
+              </div>
+            </div>
+            <div style="color: #F59E0B;">★★★★★</div>
+          </div>
+          <p class="review-text">&ldquo;Arslan Farooq bhai provided exceptional hospitality at their Rawalpindi Stadium showroom. Biometric transfer was completed smoothly without any hassle. Highly recommended dealership!&rdquo;</p>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer-meta">
+              <div class="reviewer-avatar">RA</div>
+              <div>
+                <div class="reviewer-name">Raza Ahmed</div>
+                <div class="reviewer-car">Purchased Honda Civic RS</div>
+              </div>
+            </div>
+            <div style="color: #F59E0B;">★★★★★</div>
+          </div>
+          <p class="review-text">&ldquo;17 years of experience truly shows in their professional conduct. The car was exactly as described with 100% genuine condition and documents.&rdquo;</p>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <div class="reviewer-meta">
+              <div class="reviewer-avatar">SZ</div>
+              <div>
+                <div class="reviewer-name">Shahid Zubair</div>
+                <div class="reviewer-car">Purchased Land Cruiser</div>
+              </div>
+            </div>
+            <div style="color: #F59E0B;">★★★★★</div>
+          </div>
+          <p class="review-text">&ldquo;Best automotive dealership in Rawalpindi/Islamabad. Accessible 24/7, fair transparent dealings, and top-tier luxury inventory.&rdquo;</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       8. CONTACT & LOCATION SECTION
+       ======================================================================== -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Visit Showroom</span>
+        <h2 class="section-title">Get in Touch With Us</h2>
+        <p class="section-subtitle">We welcome you to inspect our inventory in person or reach out through phone/WhatsApp 24/7.</p>
+      </div>
+
+      <div class="contact-grid">
+        <!-- CONTACT INFO -->
+        <div class="contact-info-panel">
+          <div class="contact-card-item">
+            <div class="contact-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </div>
+            <div class="contact-details-box">
+              <div class="title">Showroom Location</div>
+              <div class="value dynamic-address">Rawalpindi Cricket Stadium, J3VG+FWR, Murree Rd, Rawalpindi Stadium Rd, Satellite Town, Rawalpindi 46000, Pakistan</div>
+            </div>
+          </div>
+
+          <div class="contact-card-item">
+            <div class="contact-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            </div>
+            <div class="contact-details-box">
+              <div class="title">Phone / WhatsApp</div>
+              <div class="value">
+                <a href="tel:03133884499" class="dynamic-phone-link" style="color: #111827; font-weight: 700;">0313-3884499</a> / 
+                <a href="https://wa.me/923133884499" class="dynamic-wa-link" style="color: #16A34A; font-weight: 700;">WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-card-item">
+            <div class="contact-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <div class="contact-details-box">
+              <div class="title">Operating Hours</div>
+              <div class="value dynamic-hours">Open 24/7 (Always Available for Clients)</div>
+            </div>
+          </div>
+
+          <!-- Direct Inquiry Form -->
+          <div style="background: #FFFFFF; border: 1px solid var(--border-subtle); border-radius: 16px; padding: 1.75rem; margin-top: 0.5rem; box-shadow: var(--shadow-sm);">
+            <h4 style="font-family: var(--font-heading); font-size: 1.15rem; font-weight: 700; color: #111827; margin-bottom: 1rem;">Send Quick Inquiry</h4>
+            <form id="contactForm" style="display: flex; flex-direction: column; gap: 1rem;">
+              <input type="text" name="name" class="filter-control" placeholder="Your Full Name" required>
+              <input type="tel" name="phone" class="filter-control" placeholder="Phone Number (e.g. 0313-xxxxxxx)" required>
+              <textarea name="message" class="filter-control" rows="3" placeholder="Tell us which car you are looking for..." required></textarea>
+              <button type="submit" class="btn btn-primary btn-block">
+                <span>Send Message to Arslan Farooq</span>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- GOOGLE MAPS EMBED -->
+        <div class="map-container-box">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3321.4925760824987!2d73.07455807639556!3d33.64438313915152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38df952bf4bfad87%3A0x6b4fb6c91a0c7c64!2sRawalpindi%20Cricket%20Stadium!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Welcome Motor Location at Rawalpindi Cricket Stadium">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       9. FOOTER
+       ======================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand-logo-link" style="margin-bottom: 1rem;">
+            <div class="brand-logo-wrapper">
+              <img src="assets/logo/welcome-motor-logo.png" alt="Welcome Motor Logo" class="brand-logo-img">
+            </div>
+            <div class="brand-text-block">
+              <span class="brand-name" style="color: #FFFFFF;">WELCOME <span class="red-accent">MOTOR</span></span>
+              <span class="brand-tagline-nav" style="color: #94A3B8;">17 Years of Trust</span>
+            </div>
+          </div>
+          <p class="footer-brand-bio dynamic-tagline">
+            "17 Years of Trust. 2,179 Cars Driven Home."
+          </p>
+          <p style="font-size: 0.8125rem; color: #94A3B8; margin-top: 0.75rem;">
+            Owner: <strong style="color: #FFFFFF;">Arslan Farooq</strong> • Rawalpindi Cricket Stadium
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Quick Links</div>
+          <div class="footer-links-list">
+            <a href="#home" class="footer-link">Home</a>
+            <a href="#inventory" class="footer-link">Inventory</a>
+            <a href="#why-choose-us" class="footer-link">Why Choose Us</a>
+            <a href="#about" class="footer-link">About Dealership</a>
+            <a href="#reviews" class="footer-link">Customer Reviews</a>
+            <a href="#contact" class="footer-link">Contact & Location</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Contact & Hours</div>
+          <div class="footer-links-list">
+            <a href="tel:03133884499" class="footer-link dynamic-phone-link">📞 0313-3884499</a>
+            <a href="https://wa.me/923133884499" target="_blank" class="footer-link dynamic-wa-link">💬 WhatsApp Chat</a>
+            <span class="footer-link">⏰ Open 24/7</span>
+            <span class="footer-link">⭐ 4.8★ Google Rating</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Showroom Address</div>
+          <p style="font-size: 0.875rem; line-height: 1.6; color: #94A3B8; margin-bottom: 1rem;" class="dynamic-address">
+            Rawalpindi Cricket Stadium, J3VG+FWR, Murree Rd, Rawalpindi Stadium Rd, Satellite Town, Rawalpindi 46000, Pakistan
+          </p>
+          <a href="https://maps.app.goo.gl/shWDXxyVJ9MNbEK27" target="_blank" rel="noopener" class="btn btn-outline btn-sm" style="color: #FFFFFF; border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.05);">
+            <span>Get Driving Directions</span>
+          </a>
+
+          <!-- HIDDEN LICENSE / REGISTRATION (Only shows if configured) -->
+          <div id="publicLicenseBox" style="display: none; margin-top: 1rem; padding: 0.5rem 0.75rem; background: rgba(255,255,255,0.06); border-radius: 6px; font-size: 0.75rem; color: #94A3B8;">
+            Reg/License: <span id="publicLicenseValue" style="color: #FFFFFF; font-weight: 600;"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <div>
+          &copy; <span id="currentYear"></span> <strong>WELCOME MOTOR</strong>. All Rights Reserved.
+        </div>
+        <div style="display: flex; gap: 1.5rem; align-items: center;">
+          <a href="admin/login.html" style="color: #64748B; font-size: 0.8125rem;">Staff & Admin Portal</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       10. QUICK VIEW VEHICLE MODAL
+       ======================================================================== -->
+  <div class="modal-backdrop" id="quickViewModal">
+    <div class="modal-dialog">
+      <button type="button" class="modal-close-btn" onclick="closeQuickViewModal()" aria-label="Close modal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <div id="quickViewContent">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       11. FLOATING WHATSAPP BUTTON
+       ======================================================================== -->
+  <a href="https://wa.me/923133884499" target="_blank" rel="noopener" class="floating-whatsapp-btn dynamic-wa-link" title="Chat on WhatsApp (0313-3884499)">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.07-1.115-.067-.282-.091-.643-.231-1.109-.434-1.957-.852-3.232-2.827-3.33-2.957-.099-.13-1.025-1.36-1.025-2.593 0-1.233.647-1.84.877-2.091.229-.251.5-.313.667-.313.167 0 .334.002.48.009.153.007.359-.058.56.425.209.502.712 1.737.775 1.863.063.126.104.273.021.439-.083.166-.125.27-.249.416-.125.147-.263.328-.376.44-.125.126-.255.263-.11.512.146.25 1.488 1.488 2.87 2.062.25.104.396.084.542-.084.146-.167.625-.729.792-.979.167-.25.334-.209.563-.125.23.084 1.46.688 1.71.813.25.125.417.188.479.292.063.104.063.604-.081 1.009z"/></svg>
+  </a>
+
+  <!-- SCRIPTS -->
+  <script>
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+  </script>
+  <script src="js/config.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

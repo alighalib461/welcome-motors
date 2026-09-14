@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory Management | Welcome Motor Admin</title>
+  <link rel="icon" type="image/png" href="../assets/logo/welcome-motor-logo.png">
+
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="css/admin.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/supabase-client.js"></script>
+  <script src="js/auth.js"></script>
+</head>
+<body>
+
+  <!-- ADMIN SIDEBAR -->
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-brand">
+      <div class="brand-logo-wrapper" style="width: 42px; height: 42px;">
+        <img src="../assets/logo/welcome-motor-logo.png" alt="Welcome Motor Logo" class="brand-logo-img">
+      </div>
+      <div>
+        <div style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.1rem; color: #FFFFFF;">
+          WELCOME <span style="color: #DC2626;">MOTOR</span>
+        </div>
+        <div style="font-size: 0.65rem; color: #9CA3AF; text-transform: uppercase;">Management Portal</div>
+      </div>
+    </div>
+
+    <ul class="sidebar-nav-list">
+      <li class="sidebar-nav-item">
+        <a href="index.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="sidebar-nav-item active">
+        <a href="inventory.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C2.1 10.9 2 11.2 2 11.5V16c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><path d="M9 17h6"></path><circle cx="17" cy="17" r="2"></circle></svg>
+          <span>Inventory Catalog</span>
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a href="add-vehicle.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+          <span>Add New Vehicle</span>
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a href="settings.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span>Business Settings</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <button onclick="AdminAuth.logout()" style="color: #EF4444; font-size: 0.8125rem; font-weight: 700; cursor: pointer;">
+        Logout
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN INVENTORY PAGE -->
+  <main class="admin-main">
+    <header class="admin-topbar">
+      <div class="admin-page-title">Inventory Catalog Management</div>
+      <div class="admin-topbar-actions">
+        <a href="add-vehicle.html" class="btn btn-primary btn-sm">
+          <span>+ Add New Vehicle</span>
+        </a>
+      </div>
+    </header>
+
+    <div class="admin-content-body">
+      <!-- FILTERS / SEARCH BAR -->
+      <div style="background: #141418; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+        <input type="text" id="adminSearchInput" class="admin-input" placeholder="Search by brand, model, engine, year..." style="max-width: 320px;" oninput="filterAdminInventory()">
+        
+        <select id="adminStatusFilter" class="admin-select" style="max-width: 180px;" onchange="filterAdminInventory()">
+          <option value="">All Statuses</option>
+          <option value="available">Available Only</option>
+          <option value="reserved">Reserved Only</option>
+          <option value="sold">Sold Only</option>
+        </select>
+
+        <select id="adminFeaturedFilter" class="admin-select" style="max-width: 180px;" onchange="filterAdminInventory()">
+          <option value="">All Vehicles</option>
+          <option value="featured">Featured Only</option>
+        </select>
+
+        <button class="btn btn-outline btn-sm" onclick="loadAllVehicles()" style="margin-left: auto;">
+          🔄 Refresh
+        </button>
+      </div>
+
+      <!-- TABLE -->
+      <div class="admin-table-card">
+        <div class="table-responsive">
+          <table class="admin-data-table">
+            <thead>
+              <tr>
+                <th>Vehicle</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Featured</th>
+                <th>Mileage</th>
+                <th>Transmission</th>
+                <th>Fuel</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="inventoryTableBody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let allInventory = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadAllVehicles();
+    });
+
+    async function loadAllVehicles() {
+      const tbody = document.getElementById('inventoryTableBody');
+      tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 2rem; color: #9CA3AF;">Loading inventory...</td></tr>`;
+
+      try {
+        allInventory = await window.dbService.getVehicles();
+        renderFilteredTable(allInventory);
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="8" style="color: #EF4444; text-align: center; padding: 2rem;">Error loading vehicles.</td></tr>`;
+      }
+    }
+
+    function filterAdminInventory() {
+      const kw = document.getElementById('adminSearchInput')?.value.toLowerCase() || '';
+      const status = document.getElementById('adminStatusFilter')?.value || '';
+      const featured = document.getElementById('adminFeaturedFilter')?.value || '';
+
+      let filtered = [...allInventory];
+
+      if (kw) {
+        filtered = filtered.filter(v => 
+          (v.brand && v.brand.toLowerCase().includes(kw)) ||
+          (v.model && v.model.toLowerCase().includes(kw)) ||
+          (v.variant && v.variant.toLowerCase().includes(kw)) ||
+          (v.year && String(v.year).includes(kw))
+        );
+      }
+
+      if (status) {
+        filtered = filtered.filter(v => (v.status || 'available').toLowerCase() === status.toLowerCase());
+      }
+
+      if (featured === 'featured') {
+        filtered = filtered.filter(v => Boolean(v.featured));
+      }
+
+      renderFilteredTable(filtered);
+    }
+
+    function renderFilteredTable(vehicles) {
+      const tbody = document.getElementById('inventoryTableBody');
+      if (vehicles.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" style="text-align: center; padding: 3rem; color: #9CA3AF;">
+              <p style="font-size: 1rem; color: #fff; margin-bottom: 0.5rem;">No vehicles found</p>
+              <a href="add-vehicle.html" class="btn btn-primary btn-sm">+ Add New Vehicle</a>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = vehicles.map(v => {
+        const img = (v.images && v.images.length > 0) ? v.images[0] : '../assets/images/fortuner_legender.jpg';
+        const status = (v.status || 'available').toLowerCase();
+
+        return `
+          <tr id="row-${v.id}">
+            <td>
+              <div class="vehicle-table-cell">
+                <img src="${img}" alt="${v.model}" class="vehicle-table-thumb" onerror="this.src='../assets/images/fortuner_legender.jpg'">
+                <div>
+                  <div style="font-weight: 700; color: #FFFFFF;">${v.year} ${v.brand} ${v.model}</div>
+                  <div style="font-size: 0.75rem; color: #9CA3AF;">${v.variant || 'Standard'} • ${v.color || 'N/A'}</div>
+                </div>
+              </div>
+            </td>
+            <td style="font-weight: 700; color: #FFFFFF;">
+              ${APP_CONFIG.formatPKR(v.price)}
+            </td>
+            <td>
+              <select class="admin-select" style="padding: 0.3rem 0.5rem; font-size: 0.8125rem; width: auto;" onchange="updateRowStatus('${v.id}', this.value)">
+                <option value="available" ${status === 'available' ? 'selected' : ''}>🟢 Available</option>
+                <option value="reserved" ${status === 'reserved' ? 'selected' : ''}>🟡 Reserved</option>
+                <option value="sold" ${status === 'sold' ? 'selected' : ''}>🔴 Sold</option>
+              </select>
+            </td>
+            <td>
+              <button class="btn btn-sm ${v.featured ? 'btn-primary' : 'btn-outline'}" onclick="toggleRowFeatured('${v.id}', ${!v.featured})" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">
+                ${v.featured ? '★ Featured' : '☆ Off'}
+              </button>
+            </td>
+            <td>${v.mileage ? `${Number(v.mileage).toLocaleString()} km` : '—'}</td>
+            <td>${v.transmission || '—'}</td>
+            <td>${v.fuel_type || '—'}</td>
+            <td>
+              <div style="display: flex; gap: 0.4rem;">
+                <a href="edit-vehicle.html?id=${v.id}" class="btn btn-outline btn-sm" style="padding: 0.35rem 0.75rem;">Edit</a>
+                <a href="../vehicle.html?id=${v.id}" target="_blank" class="btn btn-outline btn-sm" style="padding: 0.35rem 0.5rem;">👁️</a>
+                <button class="btn btn-outline btn-sm" onclick="deleteRow('${v.id}', '${v.year} ${v.brand} ${v.model}')" style="color: #EF4444; border-color: rgba(239,68,68,0.3); padding: 0.35rem 0.5rem;">🗑️</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    async function updateRowStatus(id, st) {
+      await window.dbService.updateVehicleStatus(id, st);
+    }
+
+    async function toggleRowFeatured(id, val) {
+      await window.dbService.toggleVehicleFeatured(id, val);
+      await loadAllVehicles();
+    }
+
+    async function deleteRow(id, title) {
+      if (confirm(`Delete "${title}"?`)) {
+        await window.dbService.deleteVehicle(id);
+        await loadAllVehicles();
+      }
+    }
+  </script>
+</body>
+</html>

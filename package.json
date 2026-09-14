@@ -1,0 +1,17 @@
+{
+  "name": "welcome-motors",
+  "version": "1.0.0",
+  "description": "Welcome Motor - Premium Car Dealership Web Platform (Owner: Arslan Farooq)",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve -l 3000 ."
+  },
+  "keywords": [
+    "car-dealership",
+    "welcome-motor",
+    "supabase",
+    "rawalpindi"
+  ],
+  "author": "Welcome Motor",
+  "license": "ISC"
+}

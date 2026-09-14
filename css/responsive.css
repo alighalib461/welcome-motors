@@ -1,0 +1,287 @@
+/* ==============================================================================
+   WELCOME MOTOR - RESPONSIVE STYLES
+   Mobile (<768px - 2-Column Grid Sehgal Motorsports Style), Tablet (768px - 1024px), Desktop (>1024px)
+   ============================================================================== */
+
+@media (max-width: 1024px) {
+  .hero-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem;
+  }
+
+  .stat-item:nth-child(2)::after {
+    display: none;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .about-badge-float {
+    right: 1rem;
+    bottom: -1rem;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --header-height: 70px;
+  }
+
+  .section {
+    padding: 3.5rem 0;
+  }
+
+  /* NAVBAR MOBILE DRAWER */
+  .mobile-toggle {
+    display: flex;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #FFFFFF;
+    box-shadow: var(--shadow-lg);
+    flex-direction: column;
+    padding: 2rem 1.5rem;
+    gap: 1.25rem;
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-normal);
+    overflow-y: auto;
+    border-bottom: 3px solid var(--color-primary);
+  }
+
+  .nav-menu.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-link {
+    font-size: 1.15rem;
+    width: 100%;
+    text-align: center;
+    padding: 0.65rem 0;
+    color: #111827;
+  }
+
+  .nav-link:hover, .nav-link.active {
+    color: var(--color-primary);
+  }
+
+  .nav-phone-btn .nav-phone-text {
+    display: none;
+  }
+
+  .nav-phone-btn {
+    padding: 0.5rem;
+  }
+
+  /* HERO */
+  .hero-section {
+    padding-top: calc(var(--header-height) + 1.25rem);
+    padding-bottom: 3rem;
+    min-height: auto;
+  }
+
+  .hero-title {
+    font-size: 2.15rem;
+  }
+
+  .hero-tagline-quote {
+    font-size: 1.05rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .hero-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 1.25rem 1rem;
+    gap: 1rem;
+  }
+
+  .stat-item::after {
+    display: none !important;
+  }
+
+  .quick-search-box {
+    padding: 1.15rem;
+  }
+
+  .quick-search-form {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .filter-row-primary {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  /* ============================================================================
+     SEHGAL MOTORSPORTS MOBILE 2-COLUMN VEHICLE CARD GRID
+     ============================================================================ */
+  .inventory-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.65rem !important;
+  }
+
+  .vehicle-card {
+    border-radius: 6px;
+  }
+
+  .vehicle-content {
+    padding: 0.65rem 0.5rem !important;
+  }
+
+  .vehicle-title {
+    font-size: 0.85rem !important;
+    line-height: 1.25 !important;
+    min-height: 2.5em !important;
+    margin-bottom: 0.25rem !important;
+    font-weight: 700 !important;
+  }
+
+  .vehicle-price-container {
+    margin-bottom: 0.55rem !important;
+  }
+
+  .vehicle-price-main {
+    font-size: 0.95rem !important;
+  }
+
+  .vehicle-price-sub {
+    display: none;
+  }
+
+  .btn-call-now {
+    font-size: 0.8125rem !important;
+    padding: 0.5rem 0.25rem !important;
+    border-radius: 4px !important;
+    gap: 0.25rem !important;
+  }
+
+  .btn-call-now svg {
+    width: 13px !important;
+    height: 13px !important;
+  }
+
+  .vehicle-image-badges-top {
+    top: 0.4rem;
+    left: 0.4rem;
+    right: 0.4rem;
+  }
+
+  .featured-pill {
+    top: 0.4rem;
+    left: 0.4rem;
+    font-size: 0.62rem;
+    padding: 0.15rem 0.4rem;
+  }
+
+  .badge-verified-seal {
+    font-size: 0.62rem;
+    padding: 0.15rem 0.4rem;
+  }
+
+  .status-badge {
+    font-size: 0.62rem;
+    padding: 0.15rem 0.45rem;
+  }
+
+  .vehicle-card-sub-actions {
+    display: none;
+  }
+
+  /* REVIEWS & FOOTER */
+  .reviews-summary-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+
+  .rating-score-box {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .footer-bottom-bar {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .floating-whatsapp-btn {
+    bottom: 1.25rem;
+    right: 1.25rem;
+    width: 52px;
+    height: 52px;
+  }
+
+  .category-tabs-container {
+    gap: 0.45rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .category-tab-btn {
+    padding: 0.5rem 0.95rem;
+    font-size: 0.8125rem;
+  }
+
+  .brand-pills-bar {
+    gap: 0.35rem;
+    padding-bottom: 0.65rem;
+  }
+
+  .brand-pill-btn {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .modal-dialog {
+    max-height: 94vh;
+    border-radius: var(--radius-lg);
+  }
+}
+
+@media (max-width: 420px) {
+  .inventory-grid {
+    gap: 0.5rem !important;
+  }
+
+  .vehicle-content {
+    padding: 0.5rem 0.4rem !important;
+  }
+
+  .vehicle-title {
+    font-size: 0.8rem !important;
+  }
+
+  .vehicle-price-main {
+    font-size: 0.875rem !important;
+  }
+
+  .btn-call-now {
+    font-size: 0.75rem !important;
+    padding: 0.45rem 0.2rem !important;
+  }
+}

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Settings | Welcome Motor Admin</title>
+  <link rel="icon" type="image/png" href="../assets/logo/welcome-motor-logo.png">
+
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="css/admin.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/supabase-client.js"></script>
+  <script src="js/auth.js"></script>
+</head>
+<body>
+
+  <!-- ADMIN SIDEBAR -->
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-brand">
+      <div class="brand-logo-wrapper" style="width: 42px; height: 42px;">
+        <img src="../assets/logo/welcome-motor-logo.png" alt="Welcome Motor Logo" class="brand-logo-img">
+      </div>
+      <div>
+        <div style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.1rem; color: #FFFFFF;">
+          WELCOME <span style="color: #DC2626;">MOTOR</span>
+        </div>
+        <div style="font-size: 0.65rem; color: #9CA3AF; text-transform: uppercase;">Management Portal</div>
+      </div>
+    </div>
+
+    <ul class="sidebar-nav-list">
+      <li class="sidebar-nav-item">
+        <a href="index.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a href="inventory.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C2.1 10.9 2 11.2 2 11.5V16c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><path d="M9 17h6"></path><circle cx="17" cy="17" r="2"></circle></svg>
+          <span>Inventory Catalog</span>
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a href="add-vehicle.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+          <span>Add New Vehicle</span>
+        </a>
+      </li>
+      <li class="sidebar-nav-item active">
+        <a href="settings.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span>Business Settings</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <button onclick="AdminAuth.logout()" style="color: #EF4444; font-size: 0.8125rem; font-weight: 700; cursor: pointer;">
+        Logout
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN SETTINGS FORM -->
+  <main class="admin-main">
+    <header class="admin-topbar">
+      <div class="admin-page-title">Dealership Business Settings</div>
+      <div class="admin-topbar-actions">
+        <a href="../index.html" target="_blank" class="btn btn-outline btn-sm">Public Site ↗</a>
+      </div>
+    </header>
+
+    <div class="admin-content-body">
+      <!-- Success Alert -->
+      <div id="settingsSuccessAlert" style="display: none; padding: 1rem; background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); border-radius: 8px; color: #34D399; margin-bottom: 1.5rem; font-weight: 600;">
+        ✓ Dealership settings successfully updated and synced!
+      </div>
+
+      <form id="settingsForm" onsubmit="handleSettingsSubmit(event)">
+        <!-- 1. DEALERSHIP PROFILE -->
+        <div class="form-section-card">
+          <div class="form-section-title">
+            <span>Dealership Profile & Leadership</span>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="admin-form-group">
+              <label>Dealership Name</label>
+              <input type="text" name="dealership_name" class="admin-input" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Owner / Chief Executive</label>
+              <input type="text" name="owner_name" class="admin-input" required>
+            </div>
+          </div>
+
+          <div class="admin-form-group">
+            <label>Tagline</label>
+            <input type="text" name="tagline" class="admin-input" required>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="admin-form-group">
+              <label>Years of Legacy / Experience</label>
+              <input type="number" name="years_experience" class="admin-input" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Cars Sold Count</label>
+              <input type="number" name="cars_sold" class="admin-input" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Google Star Rating</label>
+              <input type="number" step="0.1" name="google_rating" class="admin-input" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. CONTACT & LOCATION -->
+        <div class="form-section-card">
+          <div class="form-section-title">
+            <span>Showroom Contact & Location Details</span>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="admin-form-group">
+              <label>Phone Number</label>
+              <input type="text" name="phone" class="admin-input" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>WhatsApp Number</label>
+              <input type="text" name="whatsapp" class="admin-input" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Opening Hours</label>
+              <input type="text" name="opening_hours" class="admin-input" required>
+            </div>
+          </div>
+
+          <div class="admin-form-group">
+            <label>Physical Address</label>
+            <input type="text" name="address" class="admin-input" required>
+          </div>
+
+          <div class="admin-form-group">
+            <label>Google Maps Direct Link</label>
+            <input type="url" name="google_maps_url" class="admin-input" required>
+          </div>
+        </div>
+
+        <!-- 3. HOMEPAGE HERO MEDIA & BACKGROUND VIDEO -->
+        <div class="form-section-card">
+          <div class="form-section-title">
+            <span>Homepage Hero Media & Background Video</span>
+            <span style="font-size: 0.75rem; color: #DC2626; font-weight: 700;">★ Luxury Video Loop</span>
+          </div>
+
+          <div class="admin-form-group">
+            <label>Hero Background Mode</label>
+            <select name="hero_bg_type" id="heroBgTypeSelect" class="admin-select" onchange="toggleHeroMediaFields()">
+              <option value="video">🎥 Dynamic Background Video (Looping Automotive Video)</option>
+              <option value="image">🖼️ Static High-Resolution Poster Image</option>
+              <option value="glow">✨ Luxury Radial Red Glow & Ambient Lighting</option>
+            </select>
+          </div>
+
+          <!-- Video Upload & URL Group -->
+          <div id="videoSettingsGroup">
+            <div class="admin-form-group">
+              <label>Upload Video from Computer / Downloads Folder (.mp4, .webm, .mov)</label>
+              <div class="image-upload-dropzone" id="videoDropzone" style="padding: 1.5rem; border: 2px dashed rgba(220, 38, 38, 0.4); border-radius: 12px; background: rgba(220, 38, 38, 0.03); text-align: center; cursor: pointer;">
+                <input type="file" id="heroVideoFileInput" accept="video/mp4,video/webm,video/quicktime,video/*" style="display: none;">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" style="margin: 0 auto 0.5rem;"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                <div style="font-weight: 700; color: #FFFFFF; font-size: 0.95rem;">Click or Drag & Drop Video File Here</div>
+                <div style="font-size: 0.75rem; color: #9CA3AF; margin-top: 0.25rem;">Supported: MP4, WebM, MOV. Recommended: 1080p / 720p, under 30MB</div>
+                <div id="videoUploadStatus" style="color: #DC2626; font-size: 0.8125rem; margin-top: 0.5rem; font-weight: 600;"></div>
+              </div>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Direct Video File Path or CDN URL</label>
+              <input type="text" name="hero_video_url" id="heroVideoUrlInput" class="admin-input" placeholder="e.g. assets/videos/hero-bg.mp4 or https://your-video-url.mp4" oninput="updateVideoPreview()">
+              <p style="font-size: 0.75rem; color: #9CA3AF; margin-top: 0.35rem;">
+                💡 <em>Tip: You can also copy your video file directly into <code>assets/videos/hero-bg.mp4</code> in the project folder and type <code>assets/videos/hero-bg.mp4</code> here.</em>
+              </p>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="admin-form-group">
+                <label>Video Poster / Fallback Image URL</label>
+                <input type="text" name="hero_poster_url" id="heroPosterUrlInput" class="admin-input" placeholder="assets/images/fortuner_legender.jpg">
+              </div>
+
+              <div class="admin-form-group">
+                <label>Video Ambient Overlay Darkness (<span id="opacityValLabel">45%</span>)</label>
+                <input type="range" name="hero_video_opacity" id="heroOpacityInput" min="0.1" max="0.85" step="0.05" value="0.45" class="admin-input" style="padding: 0.25rem; accent-color: #DC2626;" oninput="document.getElementById('opacityValLabel').textContent = Math.round(this.value * 100) + '%'">
+              </div>
+            </div>
+
+            <!-- Live Video Preview Box -->
+            <div class="admin-form-group" style="margin-top: 1rem;">
+              <label style="display: flex; justify-content: space-between; align-items: center;">
+                <span>Live Hero Video Preview</span>
+                <span id="videoStatusBadge" style="font-size: 0.75rem; color: #34D399; font-weight: 600;">Ready</span>
+              </label>
+              <div style="position: relative; width: 100%; height: 220px; border-radius: 10px; overflow: hidden; background: #000; border: 1px solid rgba(255,255,255,0.1);">
+                <video id="adminHeroVideoPreview" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                  <source src="" id="adminVideoSource">
+                  Your browser does not support video preview.
+                </video>
+                <div id="adminVideoOverlay" style="position: absolute; inset: 0; background: rgba(0,0,0,0.45); pointer-events: none;"></div>
+                <div style="position: absolute; bottom: 12px; left: 16px; color: #FFF; font-weight: 800; font-family: 'Outfit', sans-serif; font-size: 1.1rem; text-shadow: 0 2px 10px rgba(0,0,0,0.8);">
+                  WELCOME <span style="color: #DC2626;">MOTOR</span>
+                  <div style="font-size: 0.7rem; font-weight: 400; color: #D1D5DB;">Rawalpindi Cricket Stadium</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. OPTIONAL BUSINESS REGISTRATION / LICENSE -->
+        <div class="form-section-card">
+          <div class="form-section-title">
+            <span>Business License & Registration</span>
+            <span style="font-size: 0.75rem; color: #F59E0B;">Kept hidden publicly if left blank</span>
+          </div>
+
+          <div class="admin-form-group">
+            <label>Excise / Dealership License or Registration Number</label>
+            <input type="text" name="license_number" class="admin-input" placeholder="e.g. RWP-AUTO-2026-XXXX (Optional)">
+            <p style="font-size: 0.75rem; color: #9CA3AF; margin-top: 0.35rem;">
+              * Note: If you leave this field empty, no license information will be displayed on the public website.
+            </p>
+          </div>
+        </div>
+
+        <button type="submit" id="saveSettingsBtn" class="btn btn-primary btn-lg btn-block" style="width: 100%;">
+          <span>Save All Settings</span>
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <script src="js/admin-settings.js"></script>
+</body>
+</html>

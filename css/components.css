@@ -1,0 +1,851 @@
+/* ==============================================================================
+   WELCOME MOTOR - COMPONENTS & UI ELEMENTS
+   Cards, Badges, Modals, Filters, Galleries, Forms, Buttons
+   Visual Style: Clean White Background + Welcome Motor Red Accents + Black Typography
+   ============================================================================== */
+
+/* ==============================================================================
+   BUTTONS
+   ============================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.24s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  text-decoration: none;
+  white-space: nowrap;
+  will-change: transform, box-shadow;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 10px rgba(220, 38, 38, 0.25);
+  border: 1px solid var(--color-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.38);
+  color: #FFFFFF !important;
+}
+
+.btn-outline {
+  background: #FFFFFF;
+  color: #111827;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-xs);
+}
+
+.btn-outline:hover {
+  background: #F3F4F6;
+  border-color: #111827;
+  color: #111827;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.btn-whatsapp {
+  background-color: #25D366;
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 10px rgba(37, 211, 102, 0.25);
+  border: 1px solid #25D366;
+}
+
+.btn-whatsapp:hover {
+  background-color: #20BA56;
+  border-color: #20BA56;
+  color: #FFFFFF !important;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.38);
+}
+
+.btn-call {
+  background-color: var(--color-primary);
+  color: #FFFFFF !important;
+  border: 1px solid var(--color-primary);
+}
+
+.btn-call:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 4px 16px rgba(220, 38, 38, 0.35);
+}
+
+.btn-sm {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.8125rem;
+}
+
+.btn-lg {
+  padding: 0.9rem 1.85rem;
+  font-size: 1.05rem;
+  border-radius: var(--radius-lg);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* ==============================================================================
+   STATUS BADGES
+   ============================================================================== */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-xs);
+}
+
+.status-badge.available {
+  background: #DCFCE7;
+  color: #15803D;
+  border: 1px solid #BBF7D0;
+}
+
+.status-badge.reserved {
+  background: #FEF3C7;
+  color: #B45309;
+  border: 1px solid #FDE68A;
+}
+
+.status-badge.sold {
+  background: #FEE2E2;
+  color: #B91C1C;
+  border: 1px solid #FECACA;
+}
+
+.featured-pill {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
+  background: var(--color-primary);
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-xs);
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.35);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* ==============================================================================
+   CATEGORY FILTER TABS & BRAND BAR
+   ============================================================================== */
+.inventory-nav-wrapper {
+  margin-bottom: 1.75rem;
+}
+
+.category-tabs-container {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  overflow-x: auto;
+  padding: 0.25rem 0.15rem 0.75rem;
+  scrollbar-width: thin;
+}
+
+.category-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  color: #4B5563;
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-xs);
+}
+
+.category-tab-btn:hover {
+  background: #F9FAFB;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.category-tab-btn.active {
+  background: var(--color-primary);
+  color: #FFFFFF;
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.28);
+}
+
+.category-tab-count {
+  font-size: 0.75rem;
+  padding: 0.12rem 0.5rem;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: var(--radius-full);
+  font-weight: 800;
+  color: inherit;
+}
+
+.category-tab-btn.active .category-tab-count {
+  background: rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+}
+
+/* BRAND SELECTOR PILLS */
+.brand-pills-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  overflow-x: auto;
+  padding: 0.15rem 0 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.brand-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.9rem;
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: #4B5563;
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-xs);
+}
+
+.brand-pill-btn:hover, .brand-pill-btn.active {
+  background: var(--color-primary-subtle);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* ==============================================================================
+   INVENTORY FILTER BAR & CONTROLS
+   ============================================================================== */
+.inventory-controls-panel {
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-row-primary {
+  display: grid;
+  grid-template-columns: 2.2fr 1.2fr 1.2fr 1.2fr auto;
+  gap: 1rem;
+  align-items: end;
+  margin-bottom: 1.25rem;
+}
+
+.filter-row-secondary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.filter-group label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+.filter-control {
+  width: 100%;
+  background: #F9FAFB;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.7rem 0.95rem;
+  color: #111827;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+.filter-control:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+  background: #FFFFFF;
+}
+
+.filter-control option {
+  background: #FFFFFF;
+  color: #111827;
+}
+
+/* INVENTORY TOOLBAR & VIEW TOGGLES */
+.inventory-meta-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.75rem;
+  padding: 0.85rem 1.25rem;
+  background: #F8FAFC;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.inventory-count-text {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+}
+
+.inventory-count-text strong {
+  color: #111827;
+  font-weight: 700;
+}
+
+.inventory-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.view-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 3px;
+  gap: 3px;
+}
+
+.view-mode-btn {
+  padding: 0.4rem 0.65rem;
+  border-radius: var(--radius-sm);
+  color: #6B7280;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.view-mode-btn:hover {
+  color: #111827;
+}
+
+.view-mode-btn.active {
+  background: var(--color-primary);
+  color: #FFFFFF;
+}
+
+/* ==============================================================================
+   SEHGAL MOTORSPORTS INSPIRED VEHICLE CARDS (CLEAN WHITE CARD SYSTEM)
+   ============================================================================== */
+@keyframes cardFadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
+  gap: 1.5rem;
+}
+
+.vehicle-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  animation: cardFadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--card-stagger, 0) * 90ms);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.24s ease;
+  will-change: transform, box-shadow;
+}
+
+.vehicle-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-primary);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.09);
+}
+
+.vehicle-image-box {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #F8FAFC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vehicle-card-img-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.vehicle-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.vehicle-card:hover .vehicle-card-img {
+  transform: scale(1.04);
+}
+
+.vehicle-image-badges-top {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
+  right: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.badge-verified-seal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
+  border: 1px solid #BBF7D0;
+  color: #15803D;
+  font-family: var(--font-heading);
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  box-shadow: var(--shadow-xs);
+}
+
+.vehicle-content {
+  padding: 1rem 0.95rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background: #FFFFFF;
+}
+
+.vehicle-title-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.vehicle-title {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.35;
+  margin-bottom: 0.45rem;
+  min-height: 2.7em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color var(--transition-fast);
+}
+
+.vehicle-card:hover .vehicle-title {
+  color: var(--color-primary);
+}
+
+.vehicle-price-container {
+  margin-bottom: 0.85rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.vehicle-price-main {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: -0.01em;
+}
+
+.vehicle-price-sub {
+  font-size: 0.75rem;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+/* PROMINENT RED "CALL NOW" BUTTON (SEHGAL MOTORSPORTS STYLE) */
+.btn-call-now {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background-color: var(--color-primary);
+  color: #FFFFFF !important;
+  width: 100%;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-heading);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  padding: 0.65rem 1rem;
+  text-decoration: none;
+  border: 1px solid var(--color-primary);
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.24s cubic-bezier(0.16, 1, 0.3, 1), 
+              background-color 0.2s ease, 
+              border-color 0.2s ease;
+  margin-top: auto;
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.2);
+  cursor: pointer;
+  text-align: center;
+  will-change: transform, box-shadow;
+}
+
+.btn-call-now:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  color: #FFFFFF !important;
+  box-shadow: 0 5px 16px rgba(220, 38, 38, 0.38);
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Secondary Actions Container (WhatsApp & Quick View) */
+.vehicle-card-sub-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--border-subtle);
+}
+
+.vehicle-sub-link {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #6B7280;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: color var(--transition-fast);
+}
+
+.vehicle-sub-link:hover {
+  color: var(--color-primary);
+}
+
+.vehicle-sub-link.wa-sub {
+  color: #16A34A;
+}
+
+.vehicle-sub-link.wa-sub:hover {
+  color: #15803D;
+}
+
+/* ==============================================================================
+   LIST VIEW MODE
+   ============================================================================== */
+.inventory-grid.list-mode {
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+.inventory-grid.list-mode .vehicle-card {
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.inventory-grid.list-mode .vehicle-image-box {
+  width: 320px;
+  min-width: 320px;
+  aspect-ratio: auto;
+}
+
+.inventory-grid.list-mode .vehicle-content {
+  padding: 1.5rem;
+  width: 100%;
+}
+
+.inventory-grid.list-mode .btn-call-now {
+  max-width: 220px;
+}
+
+@media (max-width: 850px) {
+  .inventory-grid.list-mode .vehicle-card {
+    flex-direction: column;
+  }
+  .inventory-grid.list-mode .vehicle-image-box {
+    width: 100%;
+    min-width: auto;
+    aspect-ratio: 1 / 1;
+  }
+  .inventory-grid.list-mode .btn-call-now {
+    max-width: 100%;
+  }
+}
+
+/* ==============================================================================
+   EMPTY STATE
+   ============================================================================== */
+.inventory-empty-state {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+}
+
+.empty-icon-box {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--color-primary-subtle);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+}
+
+.empty-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.empty-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  max-width: 500px;
+  margin: 0 auto 1.5rem;
+}
+
+/* ==============================================================================
+   MODALS (QUICK VIEW)
+   ============================================================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-normal);
+}
+
+.modal-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-dialog {
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  position: relative;
+  color: #111827;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #F3F4F6;
+  border: 1px solid var(--border-subtle);
+  color: #374151;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all var(--transition-fast);
+}
+
+.modal-close-btn:hover {
+  background: var(--color-primary);
+  color: #FFFFFF;
+  border-color: var(--color-primary);
+}
+
+/* ==============================================================================
+   VEHICLE DETAIL PAGE COMPONENTS
+   ============================================================================== */
+.gallery-container {
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.gallery-main-view {
+  aspect-ratio: 16 / 10;
+  width: 100%;
+  background: #F8FAFC;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-main-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-thumbnails-row {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem;
+  overflow-x: auto;
+  background: #FFFFFF;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.gallery-thumb {
+  width: 80px;
+  height: 60px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  opacity: 0.7;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.gallery-thumb.active, .gallery-thumb:hover {
+  border-color: var(--color-primary);
+  opacity: 1;
+}
+
+.gallery-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.spec-table-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.spec-box-item {
+  background: #F9FAFB;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+}
+
+.spec-box-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6B7280;
+  margin-bottom: 0.2rem;
+}
+
+.spec-box-val {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.feature-tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.feature-tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  background: #F3F4F6;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.feature-tag-chip svg {
+  color: var(--color-primary);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

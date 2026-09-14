@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal Login | Welcome Motor</title>
+  <link rel="icon" type="image/png" href="../assets/logo/welcome-motor-logo.png">
+  
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="css/admin.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config.js"></script>
+  <script src="js/auth.js"></script>
+</head>
+<body style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #08080A;">
+
+  <div style="width: 100%; max-width: 440px; padding: 2.5rem; background: #121216; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.8);">
+    <!-- Brand Header -->
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <div class="brand-logo-wrapper" style="margin: 0 auto 1.25rem; width: 68px; height: 68px;">
+        <img src="../assets/logo/welcome-motor-logo.png" alt="Welcome Motor Logo" class="brand-logo-img">
+      </div>
+      <h1 style="font-family: var(--font-heading); font-size: 1.6rem; font-weight: 900; color: #FFFFFF; line-height: 1.1;">
+        WELCOME <span style="color: #DC2626;">MOTOR</span>
+      </h1>
+      <p style="font-size: 0.8125rem; color: #9CA3AF; margin-top: 0.35rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;">
+        Staff & Management Portal
+      </p>
+    </div>
+
+    <!-- Error Alert Box -->
+    <div id="loginErrorAlert" style="display: none; padding: 0.75rem 1rem; background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; color: #FCA5A5; font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Invalid credentials. Please try again.
+    </div>
+
+    <!-- Login Form -->
+    <form id="adminLoginForm" onsubmit="handleLoginSubmit(event)">
+      <div class="admin-form-group">
+        <label>Admin Email or Username</label>
+        <input type="text" id="loginIdentifier" class="admin-input" placeholder="e.g. arslan@welcomemotor.pk" required autocomplete="username">
+      </div>
+
+      <div class="admin-form-group">
+        <label>Security Password</label>
+        <div style="position: relative;">
+          <input type="password" id="loginPassword" class="admin-input" placeholder="••••••••" required autocomplete="current-password" style="padding-right: 40px;">
+          <button type="button" onclick="togglePasswordVisibility()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #9CA3AF; font-size: 0.8rem; cursor: pointer;">
+            👁️
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" id="loginSubmitBtn" class="btn btn-primary btn-block btn-lg" style="margin-top: 1.75rem; width: 100%;">
+        <span>Sign In to Dashboard</span>
+      </button>
+    </form>
+
+    <div style="margin-top: 2rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 1.5rem;">
+      <a href="../index.html" style="color: #9CA3AF; font-size: 0.875rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+        <span>← Back to Public Showroom</span>
+      </a>
+      <p style="color: #6B7280; font-size: 0.75rem; margin-top: 0.75rem;">
+        Private System • Unauthorized access is strictly prohibited
+      </p>
+    </div>
+  </div>
+
+  <script>
+    function togglePasswordVisibility() {
+      const field = document.getElementById('loginPassword');
+      field.type = field.type === 'password' ? 'text' : 'password';
+    }
+
+    async function handleLoginSubmit(e) {
+      e.preventDefault();
+      const id = document.getElementById('loginIdentifier').value;
+      const pass = document.getElementById('loginPassword').value;
+      const btn = document.getElementById('loginSubmitBtn');
+      const errAlert = document.getElementById('loginErrorAlert');
+
+      btn.disabled = true;
+      btn.innerHTML = `<span>Verifying credentials...</span>`;
+      errAlert.style.display = 'none';
+
+      try {
+        const res = await AdminAuth.login(id, pass);
+        if (res.success) {
+          window.location.href = 'index.html';
+        } else {
+          errAlert.textContent = res.error || 'Invalid credentials. Please try again.';
+          errAlert.style.display = 'block';
+        }
+      } catch (err) {
+        errAlert.textContent = 'Login error occurred. Please try again.';
+        errAlert.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<span>Sign In to Dashboard</span>`;
+      }
+    }
+  </script>
+</body>
+</html>
