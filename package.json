@@ -4,9 +4,8 @@
   "description": "Welcome Motor - Premium Car Dealership Web Platform (Owner: Arslan Farooq)",
   "main": "index.html",
   "scripts": {
-    "build": "echo 'Ready for deployment'",
-    "start": "node server.js",
-    "dev": "node server.js"
+    "start": "npx -y serve . -p 3000",
+    "dev": "npx -y serve . -p 3000"
   },
   "keywords": [
     "car-dealership",
