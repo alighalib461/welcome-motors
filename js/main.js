@@ -149,16 +149,7 @@ function initHeroBackground(settings) {
   const posterUrl = settings?.hero_poster_url || 'assets/images/fortuner_legender.jpg';
 
   if (overlay) {
-    overlay.style.background = `
-      radial-gradient(ellipse at 50% 36%, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.45) 45%, rgba(255, 255, 255, 0.1) 75%, transparent 100%),
-      linear-gradient(180deg, 
-        rgba(15, 23, 42, 0.18) 0%, 
-        rgba(255, 255, 255, 0.22) 15%, 
-        rgba(255, 255, 255, 0.08) 45%, 
-        rgba(255, 255, 255, 0.35) 75%, 
-        #FFFFFF 100%
-      )
-    `;
+    overlay.style.background = `linear-gradient(180deg, rgba(0, 0, 0, 0.48) 0%, rgba(0, 0, 0, 0.52) 40%, rgba(0, 0, 0, 0.58) 75%, rgba(10, 10, 12, 0.65) 100%)`;
   }
 
   if (posterUrl) {
