@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Official Sale Receipt & Deed | Welcome Motor</title>
+  <link rel="icon" type="image/png" href="../assets/logo/welcome-motor-logo.png">
+
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="css/admin.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/supabase-client.js"></script>
+  <script src="js/auth.js"></script>
+
+  <style>
+    body {
+      background-color: #0A0A0C;
+      color: #111827;
+      min-height: 100vh;
+      display: block;
+    }
+
+    .receipt-page-container {
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .receipt-top-toolbar {
+      max-width: 800px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .receipt-paper {
+      max-width: 820px;
+      width: 100%;
+      background: #FFFFFF;
+      color: #1F2937;
+      border-radius: 12px;
+      padding: 3rem;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+      position: relative;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .receipt-watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-30deg);
+      font-family: 'Outfit', sans-serif;
+      font-size: 5.5rem;
+      font-weight: 900;
+      color: rgba(220, 38, 38, 0.04);
+      pointer-events: none;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      user-select: none;
+    }
+
+    .rec-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2.5px solid #DC2626;
+      padding-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .rec-brand-block {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .rec-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+    }
+
+    .rec-brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #111827;
+      line-height: 1.1;
+    }
+
+    .rec-brand-title span {
+      color: #DC2626;
+    }
+
+    .rec-brand-sub {
+      font-size: 0.75rem;
+      color: #4B5563;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .rec-invoice-meta {
+      text-align: right;
+    }
+
+    .rec-badge-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #DC2626;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .rec-number-pill {
+      display: inline-block;
+      background: #FEE2E2;
+      color: #991B1B;
+      font-family: monospace;
+      font-weight: 800;
+      font-size: 0.95rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: 6px;
+      margin-top: 0.25rem;
+    }
+
+    .rec-section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #111827;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid #E5E7EB;
+      padding-bottom: 0.4rem;
+      margin-top: 1.25rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .rec-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .rec-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+
+    .rec-field-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .rec-field-label {
+      font-size: 0.7rem;
+      color: #6B7280;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .rec-field-value {
+      font-size: 0.9rem;
+      color: #111827;
+      font-weight: 600;
+      margin-top: 1px;
+    }
+
+    .rec-field-value.highlight {
+      font-weight: 800;
+      color: #DC2626;
+    }
+
+    .rec-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.85rem 0;
+    }
+
+    .rec-table th {
+      background: #F3F4F6;
+      color: #374151;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-align: left;
+      padding: 0.6rem 0.75rem;
+      border-top: 1px solid #E5E7EB;
+      border-bottom: 1px solid #E5E7EB;
+    }
+
+    .rec-table td {
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid #E5E7EB;
+      font-size: 0.875rem;
+      color: #1F2937;
+    }
+
+    .rec-total-row td {
+      font-weight: 800;
+      font-size: 1rem;
+      color: #111827;
+      background: #F9FAFB;
+      border-top: 2px solid #E5E7EB;
+    }
+
+    .rec-terms {
+      background: #F9FAFB;
+      border: 1px solid #E5E7EB;
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      margin-top: 1.25rem;
+      font-size: 0.75rem;
+      color: #4B5563;
+      line-height: 1.5;
+    }
+
+    .rec-signatures {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      margin-top: 3.5rem;
+      padding-top: 0.5rem;
+    }
+
+    .rec-sig-block {
+      text-align: center;
+    }
+
+    .rec-sig-line {
+      border-top: 1.5px dashed #4B5563;
+      margin-top: 2.5rem;
+      padding-top: 0.4rem;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .rec-sig-sub {
+      font-size: 0.7rem;
+      color: #6B7280;
+    }
+
+    @media print {
+      body {
+        background: #FFFFFF !important;
+        padding: 0 !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .receipt-page-container {
+        padding: 0 !important;
+      }
+      .receipt-paper {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 1.5rem !important;
+        max-width: 100% !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="receipt-page-container">
+    <!-- TOP ACTION BUTTONS (HIDDEN IN PRINT) -->
+    <div class="receipt-top-toolbar no-print">
+      <a href="sales.html" class="btn btn-outline btn-sm">← Back to Staff Portal</a>
+      <div style="display: flex; gap: 0.75rem;">
+        <button class="btn btn-outline btn-sm" id="waShareBtn" style="color: #22C55E; border-color: rgba(34,197,94,0.5);">
+          💬 WhatsApp Share
+        </button>
+        <button class="btn btn-primary btn-sm" onclick="window.print()">
+          🖨️ Print / Save as PDF
+        </button>
+      </div>
+    </div>
+
+    <!-- PRINTABLE OFFICIAL SALE RECEIPT -->
+    <div class="receipt-paper" id="receiptPaper">
+      <div class="receipt-watermark">WELCOME MOTOR</div>
+
+      <!-- HEADER -->
+      <div class="rec-header">
+        <div class="rec-brand-block">
+          <img src="../assets/logo/welcome-motor-logo.png" alt="Welcome Motor" class="rec-logo">
+          <div>
+            <div class="rec-brand-title">WELCOME <span>MOTOR</span></div>
+            <div class="rec-brand-sub">17 Years of Trust • Owner: Arslan Farooq</div>
+            <div style="font-size: 0.7rem; color: #6B7280; margin-top: 2px;">
+              Rawalpindi Cricket Stadium, Murree Rd, Rawalpindi • 📞 0313-3884499
+            </div>
+          </div>
+        </div>
+
+        <div class="rec-invoice-meta">
+          <div class="rec-badge-title">Vehicle Sale Deed & Receipt</div>
+          <div class="rec-number-pill" id="recNumber">WM-REC</div>
+          <div style="font-size: 0.75rem; color: #4B5563; margin-top: 4px;">
+            <b>Date:</b> <span id="recDate">DD/MM/YYYY</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1. CUSTOMER INFORMATION -->
+      <div class="rec-section-title">
+        <span>1. Customer (Buyer) Information</span>
+      </div>
+      <div class="rec-grid-3">
+        <div class="rec-field-item">
+          <span class="rec-field-label">Customer Name</span>
+          <span class="rec-field-value" id="recCustomerName" style="font-weight: 800;">-</span>
+        </div>
+        <div class="rec-field-item">
+          <span class="rec-field-label">Father / Husband Name</span>
+          <span class="rec-field-value" id="recFatherName">-</span>
+        </div>
+        <div class="rec-field-item">
+          <span class="rec-field-label">CNIC Number</span>
+          <span class="rec-field-value" id="recCNIC" style="font-family: monospace; font-weight: 700;">-</span>
+        </div>
+      </div>
+
+      <div class="rec-grid-3" style="margin-top: 0.65rem;">
+        <div class="rec-field-item">
+          <span class="rec-field-label">Phone Number</span>
+          <span class="rec-field-value" id="recPhone">-</span>
+        </div>
+        <div class="rec-field-item">
+          <span class="rec-field-label">City</span>
+          <span class="rec-field-value" id="recCity">-</span>
+        </div>
+        <div class="rec-field-item">
+          <span class="rec-field-label">Residential Address</span>
+          <span class="rec-field-value" id="recAddress">-</span>
+        </div>
+      </div>
+
+      <!-- 2. VEHICLE PARTICULARS -->
+      <div class="rec-section-title">
+        <span>2. Vehicle Particulars & Technical Specifications</span>
+      </div>
+      <div class="rec-grid-3">
+        <div class="rec-field-item">
+          <span class="rec-field-label">Make & Model</span>
+          <span class="rec-field-value" id="recVehicleTitle" style="font-weight: 800;">-</span>
+        </div>
+        <div class="rec-field-item">
+          <span class="rec-field-label">Model Year / Variant</span>
+          <span class="rec-field-value" id="recYearVariant">-</span>
+        </div>
+        <div class="rec-field-item">
+          <span class="rec-field-label">Registration Number</span>
+          <span class="rec-field-value highlight" id="recRegNumber">-</span>
+        </div>
+      </div>
+
+      <div class="rec-grid-3" style="margin-top: 0.65rem;">
+        <div class="rec-field-item">
+          <span class="rec-field-label">Engine Number</span>
+          <span class="rec-field-value" id="recEngineNumber" style="font-family: monospace;">-</span>
+        </div>
+        <div class="rec-field-item">
+          <span class="rec-field-label">Chassis Number</span>
+          <span class="rec-field-value" id="recChassisNumber" style="font-family: monospace;">-</span>
+        </div>
+        <div class="rec-field-item">
+          <span class="rec-field-label">Colour & Condition</span>
+          <span class="rec-field-value" id="recColorCondition">-</span>
+        </div>
+      </div>
+
+      <!-- 3. FINANCIAL BREAKDOWN TABLE -->
+      <div class="rec-section-title">
+        <span>3. Sale Financials & Payment Breakdown</span>
+      </div>
+      <table class="rec-table">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Payment Method</th>
+            <th>Payment Status</th>
+            <th style="text-align: right;">Amount (PKR)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Agreed Vehicle Total Sale Price</b></td>
+            <td id="recPaymentMethod">-</td>
+            <td><span id="recPaymentStatus" style="font-weight: 700;">-</span></td>
+            <td style="text-align: right; font-weight: 800;" id="recTotalPrice">0 PKR</td>
+          </tr>
+          <tr>
+            <td>Advance / Received Payment</td>
+            <td>Payment Received in Good Order</td>
+            <td style="color: #059669; font-weight: 700;">Received</td>
+            <td style="text-align: right; color: #059669; font-weight: 700;" id="recAdvancePrice">0 PKR</td>
+          </tr>
+          <tr class="rec-total-row">
+            <td><b>Remaining Balance Due</b></td>
+            <td colspan="2" style="font-size: 0.8125rem; font-weight: 600; color: #4B5563;">
+              <span id="recDueMeta"></span>
+            </td>
+            <td style="text-align: right; color: #DC2626; font-weight: 900;" id="recBalancePrice">0 PKR</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 4. DOCUMENTATION & HANDOVER -->
+      <div class="rec-section-title">
+        <span>4. Handover Documents & Custody Checklist</span>
+      </div>
+      <div style="font-size: 0.8125rem; color: #374151; display: flex; flex-wrap: wrap; gap: 0.5rem;" id="recDocsList">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- TERMS & CONDITIONS -->
+      <div class="rec-terms">
+        <b>TERMS & SHOWROOM CONDITIONS:</b>
+        <ol style="margin-left: 1.25rem; margin-top: 0.25rem;">
+          <li>Vehicle has been inspected and purchased by the buyer on an &ldquo;as-is, where-is&rdquo; basis with complete physical and mechanical satisfaction.</li>
+          <li>The seller/dealership confirms that all vehicle documents handed over are verified genuine to the best of records.</li>
+          <li>Biometric verification and excise transfer will be processed as per prevailing government and provincial excise regulations.</li>
+          <li>The buyer assumes full physical and legal responsibility for the vehicle from the date and time of physical handover.</li>
+        </ol>
+      </div>
+
+      <!-- SIGNATURES BLOCK -->
+      <div class="rec-signatures">
+        <div class="rec-sig-block">
+          <div class="rec-sig-line">Buyer's Signature & Thumb Impression</div>
+          <div class="rec-sig-sub">Name: <span id="recSigBuyerName">-</span></div>
+          <div class="rec-sig-sub">CNIC: <span id="recSigBuyerCNIC">-</span></div>
+        </div>
+
+        <div class="rec-sig-block">
+          <div class="rec-sig-line">Authorized Signatory & Showroom Stamp</div>
+          <div class="rec-sig-sub"><b>WELCOME MOTOR</b> (Arslan Farooq)</div>
+          <div class="rec-sig-sub">Rawalpindi Cricket Stadium Showroom</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/admin-sales.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const saleId = urlParams.get('id');
+
+      if (!saleId) {
+        alert('Sale ID missing.');
+        window.location.href = 'sales.html';
+        return;
+      }
+
+      try {
+        const sale = await window.dbService.getSaleById(saleId);
+        if (!sale) {
+          alert('Sale record not found.');
+          window.location.href = 'sales.html';
+          return;
+        }
+
+        // Fill Metadata
+        document.getElementById('recNumber').textContent = sale.receipt_number || 'WM-REC';
+        document.getElementById('recDate').textContent = sale.sale_date ? new Date(sale.sale_date).toLocaleDateString('en-GB') : new Date().toLocaleDateString('en-GB');
+
+        // Customer
+        document.getElementById('recCustomerName').textContent = sale.customer_name;
+        document.getElementById('recFatherName').textContent = sale.father_husband_name || 'N/A';
+        document.getElementById('recCNIC').textContent = sale.cnic;
+        document.getElementById('recPhone').textContent = sale.phone;
+        document.getElementById('recCity').textContent = sale.city || 'Rawalpindi';
+        document.getElementById('recAddress').textContent = sale.address || 'N/A';
+
+        // Vehicle
+        document.getElementById('recVehicleTitle').textContent = `${sale.year} ${sale.brand} ${sale.model}`;
+        document.getElementById('recYearVariant').textContent = `${sale.variant || 'Standard'} (${sale.import_local || 'Local'})`;
+        document.getElementById('recRegNumber').textContent = sale.registration_number || 'Unregistered';
+        document.getElementById('recEngineNumber').textContent = sale.engine_number || 'N/A';
+        document.getElementById('recChassisNumber').textContent = sale.chassis_number || 'N/A';
+        document.getElementById('recColorCondition').textContent = `${sale.color} • ${sale.condition || 'Used'}`;
+
+        // Financials
+        const total = Number(sale.total_sale_price) || 0;
+        const advance = Number(sale.advance_payment) || 0;
+        const balance = Number(sale.remaining_amount) || 0;
+
+        document.getElementById('recPaymentMethod').textContent = sale.payment_method || 'Cash';
+        document.getElementById('recPaymentStatus').textContent = sale.payment_status || 'Paid';
+        document.getElementById('recTotalPrice').textContent = APP_CONFIG.formatPKR(total);
+        document.getElementById('recAdvancePrice').textContent = APP_CONFIG.formatPKR(advance);
+        document.getElementById('recBalancePrice').textContent = APP_CONFIG.formatPKR(balance);
+
+        if (balance > 0 && sale.expected_payment_date) {
+          document.getElementById('recDueMeta').textContent = `Expected Balance Clearance: ${new Date(sale.expected_payment_date).toLocaleDateString('en-GB')}`;
+        } else if (balance === 0) {
+          document.getElementById('recDueMeta').textContent = `Full Payment Cleared in Full`;
+        }
+
+        // Documents
+        const docs = Array.isArray(sale.documents_received) ? sale.documents_received : [];
+        const docsContainer = document.getElementById('recDocsList');
+        if (docs.length > 0) {
+          docsContainer.innerHTML = docs.map(d => `<span style="background: #F3F4F6; border: 1px solid #E5E7EB; border-radius: 4px; padding: 0.25rem 0.5rem; font-weight: 600;">✓ ${escapeHtml(d)}</span>`).join('');
+        } else {
+          docsContainer.innerHTML = '<span style="color: #6B7280;">Standard transfer and vehicle custody documents.</span>';
+        }
+
+        // Signatures
+        document.getElementById('recSigBuyerName').textContent = sale.customer_name;
+        document.getElementById('recSigBuyerCNIC').textContent = sale.cnic;
+
+        // WhatsApp Share button
+        const waBtn = document.getElementById('waShareBtn');
+        if (waBtn) {
+          waBtn.onclick = () => shareSaleViaWhatsApp(sale.id);
+        }
+
+      } catch (err) {
+        console.error('Error rendering receipt:', err);
+        alert('Error rendering sale receipt.');
+      }
+    });
+  </script>
+</body>
+</html>

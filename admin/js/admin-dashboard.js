@@ -18,7 +18,108 @@ function displayAdminUser() {
 
 async function refreshDashboard() {
   await loadStats();
+  await loadSalesMetrics();
+  await loadRecentSales();
   await loadRecentVehicles();
+}
+
+async function loadSalesMetrics() {
+  try {
+    const stats = await window.dbService.getSalesStats();
+
+    const elSalesCount = document.getElementById('dashSalesCount');
+    const elRevenue = document.getElementById('dashTotalRevenue');
+    const elProfit = document.getElementById('dashTotalProfit');
+    const elAdvance = document.getElementById('dashTotalAdvance');
+    const elBalance = document.getElementById('dashTotalBalance');
+
+    if (elSalesCount) elSalesCount.textContent = stats.totalCount;
+    if (elRevenue) elRevenue.textContent = formatPKRCompact(stats.totalRevenue);
+    if (elProfit) elProfit.textContent = formatPKRCompact(stats.totalProfit);
+    if (elAdvance) elAdvance.textContent = formatPKRCompact(stats.totalAdvance);
+    if (elBalance) elBalance.textContent = formatPKRCompact(stats.totalRemaining);
+  } catch (err) {
+    console.error('Error loading dashboard sales stats:', err);
+  }
+}
+
+async function loadRecentSales() {
+  const tbody = document.getElementById('recentSalesTableBody');
+  if (!tbody) return;
+
+  try {
+    const sales = await window.dbService.getSales();
+    if (sales.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 2rem; color: #9CA3AF;">
+            No sales recorded yet. <a href="new-sale.html" style="color: #DC2626; font-weight: 700; margin-left: 0.5rem;">+ Create First Sale</a>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    const recent = sales.slice(0, 5);
+    tbody.innerHTML = recent.map(s => {
+      let statusClass = 'badge-paid';
+      const st = (s.payment_status || '').toLowerCase();
+      if (st.includes('partial') || st.includes('advance')) {
+        statusClass = 'badge-partial';
+      } else if (st.includes('pending')) {
+        statusClass = 'badge-pending';
+      }
+
+      let tfClass = 'badge-transfer-in-process';
+      const tf = (s.transfer_status || '').toLowerCase();
+      if (tf.includes('completed') || tf.includes('done') || tf === 'transferred') {
+        tfClass = 'badge-transfer-completed';
+      } else if (tf.includes('pending')) {
+        tfClass = 'badge-transfer-pending';
+      }
+
+      return `
+        <tr>
+          <td>
+            <div style="font-weight: 700; color: #FFFFFF;">${escapeHtml(s.customer_name)}</div>
+            <div style="font-size: 0.75rem; color: #9CA3AF;">CNIC: ${escapeHtml(s.cnic || 'N/A')}</div>
+          </td>
+          <td>
+            <div style="font-weight: 600; color: #FFFFFF;">${s.year} ${escapeHtml(s.brand)} ${escapeHtml(s.model)}</div>
+            <div style="font-size: 0.75rem; color: #60A5FA;">${escapeHtml(s.registration_number || 'Unregistered')}</div>
+          </td>
+          <td style="font-weight: 800; color: #FFFFFF;">
+            ${APP_CONFIG.formatPKR(s.total_sale_price)}
+          </td>
+          <td>
+            <span class="badge-status ${statusClass}">
+              ${escapeHtml(s.payment_status || 'Paid in Full')}
+            </span>
+          </td>
+          <td>
+            <span class="badge-status ${tfClass}">
+              ${escapeHtml(s.transfer_status || 'In Process')}
+            </span>
+          </td>
+          <td style="font-size: 0.8125rem; color: #9CA3AF;">
+            ${s.sale_date ? new Date(s.sale_date).toLocaleDateString('en-GB') : 'Recent'}
+          </td>
+          <td>
+            <div style="display: flex; gap: 0.4rem; align-items: center;">
+              <a href="sale-receipt.html?id=${s.id}" target="_blank" class="btn btn-primary btn-sm" style="padding: 0.3rem 0.55rem; font-size: 0.75rem;">
+                🖨️ Receipt
+              </a>
+              <a href="sales.html" class="btn btn-outline btn-sm" style="padding: 0.3rem 0.55rem; font-size: 0.75rem;">
+                Details
+              </a>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  } catch (err) {
+    console.error('Error loading recent sales:', err);
+  }
 }
 
 async function loadStats() {

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Sales & Records | Welcome Motor Admin</title>
+  <link rel="icon" type="image/png" href="../assets/logo/welcome-motor-logo.png">
+
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="css/admin.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/supabase-client.js"></script>
+  <script src="js/auth.js"></script>
+</head>
+<body>
+
+  <!-- ADMIN SIDEBAR -->
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-brand">
+      <div class="brand-logo-wrapper" style="width: 42px; height: 42px;">
+        <img src="../assets/logo/welcome-motor-logo.png" alt="Welcome Motor Logo" class="brand-logo-img">
+      </div>
+      <div>
+        <div style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.1rem; color: #FFFFFF;">
+          WELCOME <span style="color: #DC2626;">MOTOR</span>
+        </div>
+        <div style="font-size: 0.65rem; color: #9CA3AF; text-transform: uppercase;">Staff & Sales Portal</div>
+      </div>
+    </div>
+
+    <ul class="sidebar-nav-list">
+      <li class="sidebar-nav-item">
+        <a href="index.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="sidebar-nav-item active">
+        <a href="sales.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <span>Customers & Sales</span>
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a href="new-sale.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span>New Customer Sale</span>
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a href="inventory.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C2.1 10.9 2 11.2 2 11.5V16c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><path d="M9 17h6"></path><circle cx="17" cy="17" r="2"></circle></svg>
+          <span>Inventory Catalog</span>
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a href="add-vehicle.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+          <span>Add New Vehicle</span>
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a href="settings.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span>Business Settings</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <button onclick="AdminAuth.logout()" style="color: #EF4444; font-size: 0.8125rem; font-weight: 700; cursor: pointer; background: none; border: none; display: flex; align-items: center; gap: 0.5rem;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="admin-main">
+    <header class="admin-topbar">
+      <div>
+        <div class="admin-page-title">Customer Sales & Receipt Records</div>
+        <div style="font-size: 0.75rem; color: #9CA3AF; margin-top: 2px;">Dealership transaction archive, biometric status & official receipts</div>
+      </div>
+      <div class="admin-topbar-actions">
+        <a href="new-sale.html" class="btn btn-primary btn-sm">
+          <span>+ Create New Customer Sale</span>
+        </a>
+      </div>
+    </header>
+
+    <div class="admin-content-body">
+      <!-- FINANCIAL & SALES KPI STATS ROW -->
+      <div class="stats-row-grid">
+        <div class="stat-metric-card">
+          <div class="stat-icon-wrapper total">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+          </div>
+          <div class="stat-meta">
+            <div class="number" id="statTotalSales">0</div>
+            <div class="label">Total Sales</div>
+          </div>
+        </div>
+
+        <div class="stat-metric-card">
+          <div class="stat-icon-wrapper revenue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+          </div>
+          <div class="stat-meta">
+            <div class="number" id="statTotalRevenue" style="color: #10B981;">0 PKR</div>
+            <div class="label">Total Revenue</div>
+          </div>
+        </div>
+
+        <div class="stat-metric-card">
+          <div class="stat-icon-wrapper profit">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+          </div>
+          <div class="stat-meta">
+            <div class="number" id="statTotalProfit" style="color: #60A5FA;">0 PKR</div>
+            <div class="label">Net Dealership Profit</div>
+          </div>
+        </div>
+
+        <div class="stat-metric-card">
+          <div class="stat-icon-wrapper advance">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+          </div>
+          <div class="stat-meta">
+            <div class="number" id="statTotalAdvance" style="color: #FBBF24;">0 PKR</div>
+            <div class="label">Advance Received</div>
+          </div>
+        </div>
+
+        <div class="stat-metric-card">
+          <div class="stat-icon-wrapper balance">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          </div>
+          <div class="stat-meta">
+            <div class="number" id="statTotalBalance" style="color: #F87171;">0 PKR</div>
+            <div class="label">Pending Balance</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEARCH & FILTER TOOLBAR -->
+      <div style="background: #141418; border: 1px solid var(--admin-border); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+        <input type="text" id="salesSearchInput" class="admin-input" placeholder="Search by customer name, CNIC, phone, vehicle, reg no, receipt..." style="flex-grow: 1; min-width: 260px;" oninput="filterSalesList()">
+        
+        <select id="salesPaymentFilter" class="admin-select" style="max-width: 200px;" onchange="filterSalesList()">
+          <option value="">All Payment Statuses</option>
+          <option value="Paid in Full">🟢 Paid in Full</option>
+          <option value="Partial / Advance Paid">🟡 Partial / Advance Paid</option>
+          <option value="Pending">🔴 Pending Payment</option>
+        </select>
+
+        <select id="salesTransferFilter" class="admin-select" style="max-width: 200px;" onchange="filterSalesList()">
+          <option value="">All Transfer Statuses</option>
+          <option value="Completed">🔵 Transfer Completed</option>
+          <option value="In Process">🟣 In Process</option>
+          <option value="Pending">⚪ Pending Transfer</option>
+        </select>
+
+        <button class="btn btn-outline btn-sm" onclick="loadAllSales()" style="margin-left: auto;">
+          🔄 Refresh
+        </button>
+      </div>
+
+      <!-- SALES DATA TABLE -->
+      <div class="admin-table-card">
+        <div class="table-responsive">
+          <table class="admin-data-table">
+            <thead>
+              <tr>
+                <th>Customer Profile</th>
+                <th>Vehicle Sold</th>
+                <th>Financials (PKR)</th>
+                <th>Payment Status</th>
+                <th>Documentation</th>
+                <th>Sale Date</th>
+                <th style="min-width: 220px;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="salesTableBody">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- CUSTOMER SALE DETAILS MODAL -->
+  <div class="admin-modal-backdrop" id="saleDetailModalBackdrop" onclick="if(event.target === this) closeSaleModal()">
+    <div class="admin-modal-dialog">
+      <div class="admin-modal-header">
+        <div class="admin-modal-title">Dealership Customer Sale Record</div>
+        <button class="admin-modal-close" onclick="closeSaleModal()">&times;</button>
+      </div>
+      <div class="admin-modal-body" id="saleDetailModalBody">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="admin-modal-footer" id="saleDetailModalFooter">
+        <!-- Buttons rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <script src="js/admin-sales.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initSalesDashboard();
+    });
+  </script>
+</body>
+</html>

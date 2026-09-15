@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Customer Sale Record | Welcome Motor Admin</title>
+  <link rel="icon" type="image/png" href="../assets/logo/welcome-motor-logo.png">
+
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="css/admin.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/supabase-client.js"></script>
+  <script src="js/auth.js"></script>
+</head>
+<body>
+
+  <!-- ADMIN SIDEBAR -->
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-brand">
+      <div class="brand-logo-wrapper" style="width: 42px; height: 42px;">
+        <img src="../assets/logo/welcome-motor-logo.png" alt="Welcome Motor Logo" class="brand-logo-img">
+      </div>
+      <div>
+        <div style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.1rem; color: #FFFFFF;">
+          WELCOME <span style="color: #DC2626;">MOTOR</span>
+        </div>
+        <div style="font-size: 0.65rem; color: #9CA3AF; text-transform: uppercase;">Staff & Sales Portal</div>
+      </div>
+    </div>
+
+    <ul class="sidebar-nav-list">
+      <li class="sidebar-nav-item">
+        <a href="index.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="sidebar-nav-item active">
+        <a href="sales.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <span>Customers & Sales</span>
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a href="new-sale.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span>New Customer Sale</span>
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a href="inventory.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C2.1 10.9 2 11.2 2 11.5V16c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><path d="M9 17h6"></path><circle cx="17" cy="17" r="2"></circle></svg>
+          <span>Inventory Catalog</span>
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a href="add-vehicle.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+          <span>Add New Vehicle</span>
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
+        <a href="settings.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span>Business Settings</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <button onclick="AdminAuth.logout()" style="color: #EF4444; font-size: 0.8125rem; font-weight: 700; cursor: pointer; background: none; border: none; display: flex; align-items: center; gap: 0.5rem;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN FORM -->
+  <main class="admin-main">
+    <header class="admin-topbar">
+      <div>
+        <div class="admin-page-title">Edit Customer Sale Record</div>
+        <div style="font-size: 0.75rem; color: #9CA3AF; margin-top: 2px;">Update customer, vehicle, payments, and documentation</div>
+      </div>
+      <div class="admin-topbar-actions">
+        <a href="sales.html" class="btn btn-outline btn-sm">← Back to Sales List</a>
+      </div>
+    </header>
+
+    <div class="admin-content-body">
+      <form id="editSaleForm" onsubmit="handleSaleFormSubmit(event, true)" style="max-width: 1000px;">
+        
+        <!-- 1. CUSTOMER INFORMATION -->
+        <div class="form-section-card">
+          <div class="form-section-title">
+            <span>1. Customer Details <span style="color: #DC2626;">*</span></span>
+            <span style="font-size: 0.75rem; color: #9CA3AF;">Buyer identification</span>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="admin-form-group">
+              <label>Full Customer Name <span class="req" style="color: #DC2626;">*</span></label>
+              <input type="text" name="customer_name" class="admin-input" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Father / Husband Name</label>
+              <input type="text" name="father_husband_name" class="admin-input">
+            </div>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="admin-form-group">
+              <label>CNIC Number <span class="req" style="color: #DC2626;">*</span></label>
+              <input type="text" name="cnic" class="admin-input" maxlength="15" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Phone Number <span class="req" style="color: #DC2626;">*</span></label>
+              <input type="tel" name="phone" class="admin-input" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>WhatsApp Number</label>
+              <input type="tel" name="whatsapp" class="admin-input">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="admin-form-group">
+              <label>Residential / Business Address</label>
+              <input type="text" name="address" class="admin-input">
+            </div>
+
+            <div class="admin-form-group">
+              <label>City</label>
+              <input type="text" name="city" class="admin-input">
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. VEHICLE SPECIFICATIONS -->
+        <div class="form-section-card">
+          <div class="form-section-title">
+            <span>2. Vehicle Particulars <span style="color: #DC2626;">*</span></span>
+            <span style="font-size: 0.75rem; color: #9CA3AF;">Vehicle identification</span>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="admin-form-group">
+              <label>Brand / Make <span class="req" style="color: #DC2626;">*</span></label>
+              <input type="text" name="brand" class="admin-input" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Model <span class="req" style="color: #DC2626;">*</span></label>
+              <input type="text" name="model" class="admin-input" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Variant (Optional)</label>
+              <input type="text" name="variant" class="admin-input">
+            </div>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="admin-form-group">
+              <label>Model Year <span class="req" style="color: #DC2626;">*</span></label>
+              <input type="number" name="year" class="admin-input" min="1990" max="2030" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Registration Number <span class="req" style="color: #DC2626;">*</span></label>
+              <input type="text" name="registration_number" class="admin-input" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Exterior Colour <span class="req" style="color: #DC2626;">*</span></label>
+              <input type="text" name="color" class="admin-input" required>
+            </div>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="admin-form-group">
+              <label>Engine Number <span class="req" style="color: #DC2626;">*</span></label>
+              <input type="text" name="engine_number" class="admin-input" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Chassis Number (Optional)</label>
+              <input type="text" name="chassis_number" class="admin-input">
+            </div>
+
+            <div class="admin-form-group">
+              <label>Mileage (km) (Optional)</label>
+              <input type="number" name="mileage" class="admin-input">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="admin-form-group">
+              <label>Vehicle Condition</label>
+              <select name="condition" class="admin-select">
+                <option value="Used">Used (Certified)</option>
+                <option value="Brand New">Brand New / Unregistered</option>
+                <option value="Fresh Import">Fresh Import (Auction Grade)</option>
+              </select>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Assembly / Origin</label>
+              <select name="import_local" class="admin-select">
+                <option value="Local">Local (PKDM)</option>
+                <option value="Imported">Imported (CBUs / Japan / UK)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. SALE FINANCIALS & PAYMENT BREAKDOWN -->
+        <div class="form-section-card">
+          <div class="form-section-title">
+            <span>3. Sale & Financial Breakdown <span style="color: #DC2626;">*</span></span>
+            <span style="font-size: 0.75rem; color: #9CA3AF;">Amounts in Pakistani Rupees (PKR)</span>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="admin-form-group">
+              <label>Sale Date <span class="req" style="color: #DC2626;">*</span></label>
+              <input type="date" name="sale_date" class="admin-input" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Total Agreed Sale Price (PKR) <span class="req" style="color: #DC2626;">*</span></label>
+              <input type="number" name="total_sale_price" class="admin-input" required>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Advance / Received Payment (PKR) <span class="req" style="color: #DC2626;">*</span></label>
+              <input type="number" name="advance_payment" class="admin-input" required>
+            </div>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="admin-form-group">
+              <label>Remaining Balance (PKR)</label>
+              <input type="number" name="remaining_amount" class="admin-input" readonly style="background: rgba(255,255,255,0.03); color: #EF4444; font-weight: 800;">
+            </div>
+
+            <div class="admin-form-group">
+              <label>Payment Method</label>
+              <select name="payment_method" class="admin-select">
+                <option value="Cash">Cash Payment</option>
+                <option value="Bank Transfer / Pay Order">Bank Transfer / Pay Order</option>
+                <option value="Cheque">Bank Cheque</option>
+                <option value="Online / Raast">Online / Raast Instant</option>
+                <option value="Exchange + Cash">Vehicle Exchange + Cash</option>
+                <option value="Installments">Installments Agreement</option>
+              </select>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Payment Status</label>
+              <select name="payment_status" class="admin-select">
+                <option value="Paid in Full">🟢 Paid in Full</option>
+                <option value="Partial / Advance Paid">🟡 Partial / Advance Paid</option>
+                <option value="Pending">🔴 Pending Payment</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="admin-form-group">
+            <label>Expected Remaining Payment Date</label>
+            <input type="date" name="expected_payment_date" class="admin-input" style="max-width: 320px;">
+          </div>
+
+          <!-- Live Computed Calculation Banner -->
+          <div class="financial-calc-banner">
+            <div class="financial-calc-box">
+              <span class="financial-calc-label">Remaining Balance</span>
+              <span class="financial-calc-value balance" id="calcBannerRemaining">0 PKR</span>
+            </div>
+            <div class="financial-calc-box">
+              <span class="financial-calc-label">Dealership Net Profit</span>
+              <span class="financial-calc-value profit" id="calcBannerProfit">+0 PKR</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. DOCUMENTATION & BIOMETRIC TRACKING -->
+        <div class="form-section-card">
+          <div class="form-section-title">
+            <span>4. Documentation & Biometrics Tracking</span>
+            <span style="font-size: 0.75rem; color: #9CA3AF;">Government transfer & file custody</span>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="admin-form-group">
+              <label>Ownership Transfer Status</label>
+              <select name="transfer_status" class="admin-select">
+                <option value="Completed">🔵 Completed</option>
+                <option value="In Process">🟣 In Process</option>
+                <option value="Pending">⚪ Pending Transfer</option>
+                <option value="Not Applicable">N/A (Brand New)</option>
+              </select>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Biometric Verification</label>
+              <select name="biometric_status" class="admin-select">
+                <option value="Done">🟢 Biometric Done / Verified</option>
+                <option value="Pending">🔴 Biometric Pending</option>
+                <option value="In Process">🟡 In Process</option>
+                <option value="Exempt">⚪ Exempt / Direct Reg</option>
+              </select>
+            </div>
+
+            <div class="admin-form-group">
+              <label>Excise / Smart Card Status</label>
+              <select name="excise_status" class="admin-select">
+                <option value="In Process">In Process</option>
+                <option value="Transferred">Transferred (Smart Card Issued)</option>
+                <option value="Smart Card Pending">Smart Card Pending</option>
+                <option value="Original File Handed Over">Original File Handed Over</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Documents Checklist -->
+          <div class="admin-form-group">
+            <label>Documents Received / Handed Over:</label>
+            <div class="doc-checklist-grid">
+              <label class="doc-check-item">
+                <input type="checkbox" name="documents_received" value="Original Smart Card / Book">
+                <span>Original Smart Card / Book</span>
+              </label>
+              <label class="doc-check-item">
+                <input type="checkbox" name="documents_received" value="Return File">
+                <span>Original Return File</span>
+              </label>
+              <label class="doc-check-item">
+                <input type="checkbox" name="documents_received" value="Sales Certificate / Invoice">
+                <span>Sales Certificate / Invoice</span>
+              </label>
+              <label class="doc-check-item">
+                <input type="checkbox" name="documents_received" value="Transfer Letter / Form T1">
+                <span>Transfer Letter / Form T1</span>
+              </label>
+              <label class="doc-check-item">
+                <input type="checkbox" name="documents_received" value="CNIC Copy">
+                <span>Buyer & Seller CNIC Copies</span>
+              </label>
+              <label class="doc-check-item">
+                <input type="checkbox" name="documents_received" value="Biometric Slip">
+                <span>Biometric Slip</span>
+              </label>
+              <label class="doc-check-item">
+                <input type="checkbox" name="documents_received" value="Excise Tax Receipts">
+                <span>Excise Tax / Token Receipts</span>
+              </label>
+              <label class="doc-check-item">
+                <input type="checkbox" name="documents_received" value="NOC">
+                <span>Excise / Bank NOC</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="admin-form-group">
+              <label>Pending Documents (If any)</label>
+              <input type="text" name="documents_pending" class="admin-input">
+            </div>
+
+            <div class="admin-form-group">
+              <label>Special Terms / Notes</label>
+              <input type="text" name="notes" class="admin-input">
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. INTERNAL DEALERSHIP FINANCIALS -->
+        <div class="form-section-card" style="border-color: rgba(59, 130, 246, 0.3); background: rgba(59, 130, 246, 0.02);">
+          <div class="form-section-title" style="color: #60A5FA;">
+            <span>5. Internal Dealership Accounting (Confidential)</span>
+            <span style="font-size: 0.75rem; color: #9CA3AF;">Staff Only</span>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="admin-form-group">
+              <label>Purchase / Cost Price (PKR)</label>
+              <input type="number" name="purchase_price" class="admin-input">
+            </div>
+
+            <div class="admin-form-group">
+              <label>Actual Sale Price (PKR)</label>
+              <input type="number" name="sale_price" class="admin-input">
+            </div>
+
+            <div class="admin-form-group">
+              <label>Additional Expenses (PKR)</label>
+              <input type="number" name="additional_expenses" class="admin-input">
+            </div>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="admin-form-group">
+              <label>Calculated Net Profit (PKR)</label>
+              <input type="number" name="final_profit" class="admin-input" readonly style="background: rgba(255,255,255,0.03); color: #10B981; font-weight: 800;">
+            </div>
+
+            <div class="admin-form-group">
+              <label>Seller / Sourcing Source</label>
+              <input type="text" name="seller_source" class="admin-input">
+            </div>
+
+            <div class="admin-form-group">
+              <label>Salesperson / Staff Member</label>
+              <input type="text" name="salesperson" class="admin-input">
+            </div>
+          </div>
+        </div>
+
+        <!-- SUBMIT BUTTONS -->
+        <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem; margin-bottom: 3rem;">
+          <a href="sales.html" class="btn btn-outline">Cancel</a>
+          <button type="submit" class="btn btn-primary btn-lg" style="padding: 0.85rem 2rem;">
+            <span>Update Customer Sale Record</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </main>
+
+  <script src="js/admin-sales.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initSaleForm(true);
+    });
+  </script>
+</body>
+</html>

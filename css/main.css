@@ -502,26 +502,24 @@ button, input, select, textarea {
 }
 
 .hero-bg-video.is-playing {
-  opacity: 0.65;
+  opacity: 0.95;
   transform: translate(-50%, -50%) scale(1.0);
 }
 
-/* Layered Cinematic Overlay: Clear Center + Subtle Contrast Halo + Smooth Bottom Fade */
+/* Semi-Transparent Black Overlay (45–60% opacity) for high contrast & cinematic clarity */
 .hero-video-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
-    radial-gradient(ellipse at 50% 36%, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.45) 45%, rgba(255, 255, 255, 0.1) 75%, transparent 100%),
-    linear-gradient(180deg, 
-      rgba(15, 23, 42, 0.18) 0%, 
-      rgba(255, 255, 255, 0.22) 15%, 
-      rgba(255, 255, 255, 0.08) 45%, 
-      rgba(255, 255, 255, 0.35) 75%, 
-      #FFFFFF 100%
-    );
+  background: linear-gradient(
+    180deg, 
+    rgba(0, 0, 0, 0.48) 0%, 
+    rgba(0, 0, 0, 0.52) 40%, 
+    rgba(0, 0, 0, 0.58) 75%, 
+    rgba(10, 10, 12, 0.70) 100%
+  );
   z-index: 1;
   pointer-events: none;
 }
@@ -533,7 +531,7 @@ button, input, select, textarea {
   transform: translateX(-50%);
   width: 750px;
   height: 380px;
-  background: radial-gradient(circle, rgba(220, 38, 38, 0.08) 0%, rgba(255, 255, 255, 0) 70%);
+  background: radial-gradient(circle, rgba(220, 38, 38, 0.18) 0%, rgba(0, 0, 0, 0) 70%);
   filter: blur(90px);
   pointer-events: none;
   z-index: 1;
@@ -552,18 +550,18 @@ button, input, select, textarea {
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(16, 16, 20, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--radius-full);
-  color: #1E293B;
+  color: #FFFFFF;
   font-family: var(--font-heading);
   font-size: 0.8125rem;
   font-weight: 700;
   cursor: pointer;
   transition: all var(--transition-fast);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 .hero-video-ctrl-btn:hover {
@@ -585,17 +583,17 @@ button, input, select, textarea {
   align-items: center;
   gap: 0.6rem;
   padding: 0.45rem 1.25rem;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(16, 16, 20, 0.80);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(220, 38, 38, 0.35);
+  border: 1px solid rgba(220, 38, 38, 0.45);
   border-radius: var(--radius-full);
   font-family: var(--font-heading);
   font-size: 0.875rem;
   font-weight: 700;
-  color: var(--color-primary);
+  color: #FFFFFF;
   margin-bottom: 1.5rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 }
 
 .hero-badge-dot {
@@ -619,9 +617,9 @@ button, input, select, textarea {
   font-weight: 900;
   line-height: 1.15;
   letter-spacing: -0.03em;
-  color: #0F172A;
+  color: #FFFFFF;
   margin-bottom: 1.25rem;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.95), 0 0 16px rgba(255, 255, 255, 0.7);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 0, 0, 0.4);
 }
 
 .hero-title .brand-title-red,
@@ -629,7 +627,7 @@ button, input, select, textarea {
   color: #DC2626 !important;
   font-weight: 900;
   display: inline-block;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.95), 0 0 24px rgba(220, 38, 38, 0.3);
+  text-shadow: 0 2px 10px rgba(220, 38, 38, 0.5), 0 0 30px rgba(220, 38, 38, 0.4);
   background: none !important;
   -webkit-text-fill-color: #DC2626 !important;
 }
@@ -637,13 +635,13 @@ button, input, select, textarea {
 .hero-tagline-quote {
   font-size: clamp(1.1rem, 1.8vw, 1.35rem);
   font-weight: 600;
-  color: #1E293B;
+  color: #E2E8F0;
   margin-bottom: 2.25rem;
-  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
 }
 
 .hero-tagline-quote span {
-  color: var(--color-primary);
+  color: #EF4444;
   font-weight: 800;
 }
 
@@ -662,13 +660,13 @@ button, input, select, textarea {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(16, 16, 20, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(229, 231, 235, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-xl);
   padding: 1.75rem 2.25rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
 }
 
 .stat-item {
@@ -686,14 +684,14 @@ button, input, select, textarea {
   top: 15%;
   height: 70%;
   width: 1px;
-  background: var(--border-subtle);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .stat-number {
   font-family: var(--font-heading);
   font-size: clamp(1.85rem, 2.8vw, 2.5rem);
   font-weight: 900;
-  color: #0F172A;
+  color: #FFFFFF;
   line-height: 1.1;
   margin-bottom: 0.25rem;
   display: flex;
@@ -710,7 +708,7 @@ button, input, select, textarea {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #475569;
+  color: #94A3B8;
 }
 
 /* ==============================================================================

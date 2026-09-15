@@ -9,6 +9,7 @@ class WelcomeMotorDataService {
     this.storageKey = 'welcome_motors_vehicles_cache';
     this.settingsKey = 'welcome_motors_settings_cache';
     this.inquiriesKey = 'welcome_motors_inquiries_cache';
+    this.salesKey = 'welcome_motors_sales_cache';
     this.initSupabase();
   }
 
@@ -446,6 +447,288 @@ class WelcomeMotorDataService {
   }
 
   // ==========================================
+  // CUSTOMER SALES & RECEIPT SYSTEM (STAFF PORTAL)
+  // ==========================================
+
+  /**
+   * Fetch all customer sales with optional search and filters
+   */
+  async getSales(options = {}) {
+    // 1. Attempt Supabase Query if connected
+    if (this.client) {
+      try {
+        let query = this.client
+          .from('customer_sales')
+          .select('*')
+          .order('sale_date', { ascending: false });
+
+        if (options.payment_status) {
+          query = query.eq('payment_status', options.payment_status);
+        }
+        if (options.transfer_status) {
+          query = query.eq('transfer_status', options.transfer_status);
+        }
+
+        const { data, error } = await query;
+        if (!error && Array.isArray(data)) {
+          localStorage.setItem(this.salesKey, JSON.stringify(data));
+          return this.applyLocalSalesFilters(data, options);
+        } else {
+          console.warn('Supabase sales query check:', error?.message);
+        }
+      } catch (err) {
+        console.warn('Supabase sales error, using cached sales:', err.message);
+      }
+    }
+
+    // 2. Fallback to LocalStorage Cache
+    const cached = this.getLocalSales();
+    return this.applyLocalSalesFilters(cached, options);
+  }
+
+  /**
+   * Fetch a single sale record by ID
+   */
+  async getSaleById(id) {
+    if (!id) return null;
+
+    if (this.client) {
+      try {
+        const { data, error } = await this.client
+          .from('customer_sales')
+          .select('*')
+          .eq('id', id)
+          .single();
+
+        if (!error && data) return data;
+      } catch (err) {
+        console.warn('Error fetching sale from Supabase:', err.message);
+      }
+    }
+
+    const cached = this.getLocalSales();
+    return cached.find(s => s.id === id) || null;
+  }
+
+  /**
+   * Create a new customer sale record
+   */
+  async createSale(saleData) {
+    const totalSale = Number(saleData.total_sale_price) || 0;
+    const advance = Number(saleData.advance_payment) || 0;
+    const remaining = Math.max(0, totalSale - advance);
+
+    const purchase = Number(saleData.purchase_price) || 0;
+    const salePr = Number(saleData.sale_price) || totalSale;
+    const expenses = Number(saleData.additional_expenses) || 0;
+    const profit = salePr - purchase - expenses;
+
+    const newSale = {
+      id: saleData.id || this.generateUUID(),
+      receipt_number: saleData.receipt_number || this.generateReceiptNumber(),
+      vehicle_id: saleData.vehicle_id || null,
+
+      // Customer fields
+      customer_name: (saleData.customer_name || '').trim(),
+      father_husband_name: (saleData.father_husband_name || '').trim(),
+      cnic: (saleData.cnic || '').trim(),
+      phone: (saleData.phone || '').trim(),
+      whatsapp: (saleData.whatsapp || saleData.phone || '').trim(),
+      address: (saleData.address || '').trim(),
+      city: (saleData.city || 'Rawalpindi').trim(),
+
+      // Vehicle fields
+      brand: (saleData.brand || '').trim(),
+      model: (saleData.model || '').trim(),
+      variant: (saleData.variant || '').trim(),
+      year: Number(saleData.year) || new Date().getFullYear(),
+      registration_number: (saleData.registration_number || '').trim(),
+      chassis_number: (saleData.chassis_number || '').trim(),
+      engine_number: (saleData.engine_number || '').trim(),
+      color: (saleData.color || '').trim(),
+      mileage: saleData.mileage ? Number(saleData.mileage) : null,
+      condition: saleData.condition || 'Used',
+      import_local: saleData.import_local || 'Local',
+
+      // Sale fields
+      sale_date: saleData.sale_date || new Date().toISOString().split('T')[0],
+      total_sale_price: totalSale,
+      advance_payment: advance,
+      remaining_amount: remaining,
+      payment_method: saleData.payment_method || 'Cash',
+      payment_status: saleData.payment_status || (remaining === 0 ? 'Paid in Full' : 'Partial / Advance Paid'),
+      expected_payment_date: saleData.expected_payment_date || null,
+
+      // Documentation & Registration
+      transfer_status: saleData.transfer_status || 'In Process',
+      biometric_status: saleData.biometric_status || 'Done',
+      excise_status: saleData.excise_status || 'In Process',
+      documents_received: Array.isArray(saleData.documents_received) ? saleData.documents_received : [],
+      documents_pending: (saleData.documents_pending || '').trim(),
+      notes: (saleData.notes || '').trim(),
+
+      // Internal Dealership Accounting
+      purchase_price: purchase,
+      sale_price: salePr,
+      additional_expenses: expenses,
+      final_profit: profit,
+      seller_source: (saleData.seller_source || '').trim(),
+      salesperson: (saleData.salesperson || 'Arslan Farooq').trim(),
+
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+
+    // Save to local cache immediately
+    const cached = this.getLocalSales();
+    cached.unshift(newSale);
+    localStorage.setItem(this.salesKey, JSON.stringify(cached));
+
+    // If vehicle was linked to inventory, optionally update inventory vehicle status to 'sold'
+    if (newSale.vehicle_id) {
+      try {
+        await this.updateVehicleStatus(newSale.vehicle_id, 'sold');
+      } catch (e) {
+        console.warn('Could not auto-mark vehicle as sold:', e);
+      }
+    }
+
+    // Push to Supabase if connected
+    if (this.client) {
+      try {
+        await this.client
+          .from('customer_sales')
+          .insert([newSale]);
+      } catch (err) {
+        console.warn('Supabase sale insert warning:', err.message);
+      }
+    }
+
+    return newSale;
+  }
+
+  /**
+   * Update an existing customer sale record
+   */
+  async updateSale(id, saleData) {
+    const totalSale = Number(saleData.total_sale_price) || 0;
+    const advance = Number(saleData.advance_payment) || 0;
+    const remaining = Math.max(0, totalSale - advance);
+
+    const purchase = Number(saleData.purchase_price) || 0;
+    const salePr = Number(saleData.sale_price) || totalSale;
+    const expenses = Number(saleData.additional_expenses) || 0;
+    const profit = salePr - purchase - expenses;
+
+    const cached = this.getLocalSales();
+    const index = cached.findIndex(s => s.id === id);
+    
+    const updated = {
+      ...(index !== -1 ? cached[index] : {}),
+      ...saleData,
+      id: id,
+      total_sale_price: totalSale,
+      advance_payment: advance,
+      remaining_amount: remaining,
+      purchase_price: purchase,
+      sale_price: salePr,
+      additional_expenses: expenses,
+      final_profit: profit,
+      documents_received: Array.isArray(saleData.documents_received) ? saleData.documents_received : [],
+      updated_at: new Date().toISOString()
+    };
+
+    if (index !== -1) {
+      cached[index] = updated;
+    } else {
+      cached.unshift(updated);
+    }
+    localStorage.setItem(this.salesKey, JSON.stringify(cached));
+
+    if (this.client) {
+      try {
+        await this.client
+          .from('customer_sales')
+          .update(updated)
+          .eq('id', id);
+      } catch (err) {
+        console.warn('Supabase sale update error:', err.message);
+      }
+    }
+
+    return updated;
+  }
+
+  /**
+   * Delete a sale record
+   */
+  async deleteSale(id) {
+    let cached = this.getLocalSales();
+    cached = cached.filter(s => s.id !== id);
+    localStorage.setItem(this.salesKey, JSON.stringify(cached));
+
+    if (this.client) {
+      try {
+        await this.client
+          .from('customer_sales')
+          .delete()
+          .eq('id', id);
+      } catch (err) {
+        console.warn('Supabase sale delete error:', err.message);
+      }
+    }
+
+    return { success: true };
+  }
+
+  /**
+   * Calculate summary KPI metrics for dealership sales
+   */
+  async getSalesStats() {
+    const sales = await this.getSales();
+    
+    let totalRevenue = 0;
+    let totalProfit = 0;
+    let totalAdvance = 0;
+    let totalRemaining = 0;
+    let paidInFullCount = 0;
+    let partialCount = 0;
+    let pendingCount = 0;
+
+    sales.forEach(s => {
+      const price = Number(s.total_sale_price) || 0;
+      const adv = Number(s.advance_payment) || 0;
+      const rem = Number(s.remaining_amount) || 0;
+      const prof = Number(s.final_profit) || 0;
+
+      totalRevenue += price;
+      totalProfit += prof;
+      totalAdvance += adv;
+      totalRemaining += rem;
+
+      const st = (s.payment_status || '').toLowerCase();
+      if (st.includes('paid in full') || st === 'paid') {
+        paidInFullCount++;
+      } else if (st.includes('partial') || st.includes('advance')) {
+        partialCount++;
+      } else {
+        pendingCount++;
+      }
+    });
+
+    return {
+      totalCount: sales.length,
+      totalRevenue,
+      totalProfit,
+      totalAdvance,
+      totalRemaining,
+      paidInFullCount,
+      partialCount,
+      pendingCount
+    };
+  }
+
+  // ==========================================
   // HELPER UTILITIES
   // ==========================================
 
@@ -727,6 +1010,191 @@ class WelcomeMotorDataService {
       } else {
         result.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
       }
+    }
+
+    return result;
+  }
+
+  generateReceiptNumber() {
+    const year = new Date().getFullYear();
+    const rand = Math.floor(1000 + Math.random() * 9000);
+    return `WM-${year}-${rand}`;
+  }
+
+  getLocalSales() {
+    try {
+      const data = localStorage.getItem(this.salesKey);
+      if (data) {
+        const parsed = JSON.parse(data);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {}
+
+    // Default Seed Dealership Customer Sales Records
+    const defaultSales = [
+      {
+        id: 'sale-wm-001',
+        receipt_number: 'WM-2026-1048',
+        vehicle_id: 'wm-fortuner-legender',
+        customer_name: 'Muhammad Tariq Mahmood',
+        father_husband_name: 'Chaudhry Abdul Rashid',
+        cnic: '37405-1892341-3',
+        phone: '0300-5123456',
+        whatsapp: '0300-5123456',
+        address: 'House 42, Street 8, Chaklala Scheme 3',
+        city: 'Rawalpindi',
+        brand: 'Toyota',
+        model: 'Fortuner',
+        variant: 'Legender 2.8 4x4 Sigma 4',
+        year: 2023,
+        registration_number: 'LE-23-9944',
+        chassis_number: 'MRO-BA3CD-89321',
+        engine_number: '1GD-8374921',
+        color: 'Attitude Black Metallic',
+        mileage: 19500,
+        condition: 'Used',
+        import_local: 'Local',
+        sale_date: '2026-09-10',
+        total_sale_price: 19500000,
+        advance_payment: 15000000,
+        remaining_amount: 4500000,
+        payment_method: 'Bank Transfer / Pay Order',
+        payment_status: 'Partial / Advance Paid',
+        expected_payment_date: '2026-09-30',
+        transfer_status: 'In Process',
+        biometric_status: 'Done',
+        excise_status: 'In Process',
+        documents_received: [
+          'Original Smart Card / Book',
+          'Return File',
+          'Sales Certificate / Invoice',
+          'Transfer Letter / Form T1',
+          'CNIC Copy',
+          'Biometric Slip',
+          'Excise Tax Receipts'
+        ],
+        documents_pending: 'Excise NOC Verification from Lahore',
+        notes: 'Advance paid via Meezan Bank Pay Order (PO# 884129). Remaining balance of Rs. 4,500,000 to be cleared upon physical delivery of finalized Smart Card.',
+        purchase_price: 18200000,
+        sale_price: 19500000,
+        additional_expenses: 85000,
+        final_profit: 1215000,
+        seller_source: 'Direct Owner (Islamabad)',
+        salesperson: 'Arslan Farooq',
+        created_at: '2026-09-10T14:30:00.000Z',
+        updated_at: '2026-09-10T14:30:00.000Z'
+      },
+      {
+        id: 'sale-wm-002',
+        receipt_number: 'WM-2026-0982',
+        vehicle_id: 'wm-civic-rs',
+        customer_name: 'Dr. Kamran Ahmed',
+        father_husband_name: 'Ahmed Saeed',
+        cnic: '61101-9482715-1',
+        phone: '0333-5491122',
+        whatsapp: '0333-5491122',
+        address: 'House 19, Street 24, Sector F-7/2',
+        city: 'Islamabad',
+        brand: 'Honda',
+        model: 'Civic',
+        variant: 'RS 1.5 VTEC Turbo 11th Gen',
+        year: 2024,
+        registration_number: 'ICT-24-7801',
+        chassis_number: 'NLA-FE168-00912',
+        engine_number: 'L15B7-562910',
+        color: 'Meteoroid Grey Metallic',
+        mileage: 8400,
+        condition: 'Used',
+        import_local: 'Local',
+        sale_date: '2026-09-05',
+        total_sale_price: 9800000,
+        advance_payment: 9800000,
+        remaining_amount: 0,
+        payment_method: 'Bank Transfer / Pay Order',
+        payment_status: 'Paid in Full',
+        expected_payment_date: null,
+        transfer_status: 'Completed',
+        biometric_status: 'Done',
+        excise_status: 'Transferred',
+        documents_received: [
+          'Original Smart Card / Book',
+          'Return File',
+          'Sales Certificate / Invoice',
+          'Transfer Letter / Form T1',
+          'CNIC Copy',
+          'Biometric Slip',
+          'Excise Tax Receipts',
+          'NOC'
+        ],
+        documents_pending: 'None',
+        notes: 'Full payment cleared on delivery. Vehicle and complete original document file handed over to customer.',
+        purchase_price: 9150000,
+        sale_price: 9800000,
+        additional_expenses: 50000,
+        final_profit: 600000,
+        seller_source: 'Showroom Exchange',
+        salesperson: 'Arslan Farooq',
+        created_at: '2026-09-05T11:00:00.000Z',
+        updated_at: '2026-09-05T11:00:00.000Z'
+      }
+    ];
+
+    try {
+      localStorage.setItem(this.salesKey, JSON.stringify(defaultSales));
+    } catch (e) {}
+
+    return defaultSales;
+  }
+
+  applyLocalSalesFilters(sales, options = {}) {
+    let result = [...sales];
+
+    if (options.search) {
+      const kw = options.search.toLowerCase().trim();
+      result = result.filter(s => 
+        (s.customer_name && s.customer_name.toLowerCase().includes(kw)) ||
+        (s.father_husband_name && s.father_husband_name.toLowerCase().includes(kw)) ||
+        (s.cnic && s.cnic.toLowerCase().includes(kw)) ||
+        (s.phone && s.phone.toLowerCase().includes(kw)) ||
+        (s.whatsapp && s.whatsapp.toLowerCase().includes(kw)) ||
+        (s.registration_number && s.registration_number.toLowerCase().includes(kw)) ||
+        (s.brand && s.brand.toLowerCase().includes(kw)) ||
+        (s.model && s.model.toLowerCase().includes(kw)) ||
+        (s.receipt_number && s.receipt_number.toLowerCase().includes(kw)) ||
+        (s.city && s.city.toLowerCase().includes(kw)) ||
+        (s.engine_number && s.engine_number.toLowerCase().includes(kw)) ||
+        (s.chassis_number && s.chassis_number.toLowerCase().includes(kw))
+      );
+    }
+
+    if (options.payment_status) {
+      result = result.filter(s => (s.payment_status || '').toLowerCase() === options.payment_status.toLowerCase());
+    }
+
+    if (options.transfer_status) {
+      result = result.filter(s => (s.transfer_status || '').toLowerCase() === options.transfer_status.toLowerCase());
+    }
+
+    if (options.dateFrom) {
+      result = result.filter(s => s.sale_date >= options.dateFrom);
+    }
+
+    if (options.dateTo) {
+      result = result.filter(s => s.sale_date <= options.dateTo);
+    }
+
+    // Sort order
+    if (options.sort === 'price_desc') {
+      result.sort((a, b) => (Number(b.total_sale_price) || 0) - (Number(a.total_sale_price) || 0));
+    } else if (options.sort === 'price_asc') {
+      result.sort((a, b) => (Number(a.total_sale_price) || 0) - (Number(b.total_sale_price) || 0));
+    } else if (options.sort === 'profit_desc') {
+      result.sort((a, b) => (Number(b.final_profit) || 0) - (Number(a.final_profit) || 0));
+    } else if (options.sort === 'date_asc') {
+      result.sort((a, b) => new Date(a.sale_date || a.created_at) - new Date(b.sale_date || b.created_at));
+    } else {
+      // Default: date_desc
+      result.sort((a, b) => new Date(b.sale_date || b.created_at) - new Date(a.sale_date || a.created_at));
     }
 
     return result;

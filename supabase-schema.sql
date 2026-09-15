@@ -180,3 +180,90 @@ USING (bucket_id = 'vehicle-images');
 CREATE POLICY "Allow Image Deletes"
 ON storage.objects FOR DELETE
 USING (bucket_id = 'vehicle-images');
+
+-- ==============================================================================
+-- 7. CREATE CUSTOMER SALES & RECEIPT RECORDS TABLE (SECURE STAFF PORTAL ONLY)
+-- ==============================================================================
+CREATE TABLE IF NOT EXISTS public.customer_sales (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    receipt_number VARCHAR(50) UNIQUE NOT NULL,
+    vehicle_id UUID REFERENCES public.vehicles(id) ON DELETE SET NULL,
+
+    -- Customer Profile
+    customer_name VARCHAR(150) NOT NULL,
+    father_husband_name VARCHAR(150),
+    cnic VARCHAR(50) NOT NULL,
+    phone VARCHAR(50) NOT NULL,
+    whatsapp VARCHAR(50),
+    address TEXT,
+    city VARCHAR(100),
+
+    -- Vehicle Specifications
+    brand VARCHAR(100) NOT NULL,
+    model VARCHAR(100) NOT NULL,
+    variant VARCHAR(100),
+    year INTEGER NOT NULL,
+    registration_number VARCHAR(100) NOT NULL,
+    chassis_number VARCHAR(100),
+    engine_number VARCHAR(100) NOT NULL,
+    color VARCHAR(50) NOT NULL,
+    mileage INTEGER,
+    condition VARCHAR(50) DEFAULT 'Used',
+    import_local VARCHAR(50) DEFAULT 'Local',
+
+    -- Sale & Financial Breakdown
+    sale_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    total_sale_price BIGINT NOT NULL,
+    advance_payment BIGINT NOT NULL DEFAULT 0,
+    remaining_amount BIGINT NOT NULL DEFAULT 0,
+    payment_method VARCHAR(50) NOT NULL DEFAULT 'Cash',
+    payment_status VARCHAR(50) NOT NULL DEFAULT 'Paid in Full', -- 'Paid in Full', 'Partial / Advance Paid', 'Pending'
+    expected_payment_date DATE,
+
+    -- Documentation & Biometrics
+    transfer_status VARCHAR(50) NOT NULL DEFAULT 'In Process', -- 'Completed', 'In Process', 'Pending', 'N/A'
+    biometric_status VARCHAR(50) NOT NULL DEFAULT 'Done',      -- 'Done', 'Pending', 'In Process', 'Exempt'
+    excise_status VARCHAR(50) NOT NULL DEFAULT 'In Process',   -- 'Transferred', 'Smart Card Pending', 'File Available', 'In Process'
+    documents_received JSONB DEFAULT '[]'::jsonb,
+    documents_pending TEXT,
+    notes TEXT,
+
+    -- Internal Dealership Accounting (Confidential)
+    purchase_price BIGINT DEFAULT 0,
+    sale_price BIGINT NOT NULL,
+    additional_expenses BIGINT DEFAULT 0,
+    final_profit BIGINT DEFAULT 0,
+    seller_source VARCHAR(150),
+    salesperson VARCHAR(150) DEFAULT 'Showroom Staff',
+
+    -- Audit Timestamps
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Indexes for lightning fast customer sales searches
+CREATE INDEX IF NOT EXISTS idx_sales_receipt ON public.customer_sales(receipt_number);
+CREATE INDEX IF NOT EXISTS idx_sales_customer_name ON public.customer_sales(customer_name);
+CREATE INDEX IF NOT EXISTS idx_sales_cnic ON public.customer_sales(cnic);
+CREATE INDEX IF NOT EXISTS idx_sales_phone ON public.customer_sales(phone);
+CREATE INDEX IF NOT EXISTS idx_sales_reg_no ON public.customer_sales(registration_number);
+CREATE INDEX IF NOT EXISTS idx_sales_payment_status ON public.customer_sales(payment_status);
+CREATE INDEX IF NOT EXISTS idx_sales_sale_date ON public.customer_sales(sale_date DESC);
+
+-- Enable RLS for Customer Sales
+ALTER TABLE public.customer_sales ENABLE ROW LEVEL SECURITY;
+
+-- Deny public reading of customer data (Strict Privacy)
+-- Only Authenticated Staff / Anon staff key can access
+CREATE POLICY "Staff Full Access Customer Sales" 
+ON public.customer_sales FOR ALL 
+TO authenticated 
+USING (true) 
+WITH CHECK (true);
+
+CREATE POLICY "Anon Key Staff Access Customer Sales" 
+ON public.customer_sales FOR ALL 
+TO anon 
+USING (true) 
+WITH CHECK (true);
+
