@@ -31,6 +31,9 @@
 </head>
 <body>
 
+  <!-- Scroll Progress Indicator Bar -->
+  <div id="scrollProgressBar" class="scroll-progress-bar" aria-hidden="true"></div>
+
   <!-- ========================================================================
        1. STICKY MODERN LUXURY NAVIGATION BAR
        ======================================================================== -->
@@ -203,7 +206,7 @@
        ======================================================================== -->
   <section class="section section-dark" id="featuredSection" style="display: none;">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal">
         <span class="section-tag">Handpicked Selection</span>
         <h2 class="section-title">Featured Showroom Vehicles</h2>
         <p class="section-subtitle">Exclusively certified, pristine condition vehicles currently featured on our showroom floor.</p>
@@ -217,14 +220,14 @@
        ======================================================================== -->
   <section class="section" id="inventory">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal">
         <span class="section-tag">Verified Showroom Collection</span>
         <h2 class="section-title">Explore Our Luxury Inventory</h2>
         <p class="section-subtitle">Browse through certified pre-owned and brand-new luxury automobiles available at Rawalpindi Cricket Stadium.</p>
       </div>
 
       <!-- INVENTORY CATEGORY TABS -->
-      <div class="inventory-nav-wrapper">
+      <div class="inventory-nav-wrapper reveal">
         <div class="category-tabs-container">
           <button type="button" class="category-tab-btn active" data-category="all" onclick="selectCategory('all', this)">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
@@ -402,7 +405,7 @@
        ======================================================================== -->
   <section class="section section-dark" id="why-choose-us">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal">
         <span class="section-tag">Uncompromised Standard</span>
         <h2 class="section-title">Why Welcome Motor?</h2>
         <p class="section-subtitle">Since 2007, we have earned the trust of 2,179+ car enthusiasts and families across Pakistan.</p>
@@ -450,9 +453,14 @@
   <section class="section" id="about">
     <div class="container">
       <div class="about-grid">
-        <div class="about-image-column">
+        <div class="about-image-column reveal-scale">
           <div class="about-image-wrapper">
-            <img src="assets/logo/welcome-motor-logo.png" alt="Welcome Motor Dealership" style="padding: 2.5rem; object-fit: contain; background: #FFFFFF;">
+            <img src="assets/images/arslan-farooq.jpg" alt="Arslan Farooq - Founder & Chief Executive of Welcome Motor" class="about-portrait-img">
+            <div class="about-portrait-overlay"></div>
+            <div class="about-portrait-caption">
+              <span class="about-portrait-name">Arslan Farooq</span>
+              <span class="about-portrait-title">Founder & Chief Executive</span>
+            </div>
           </div>
           <div class="about-badge-float">
             <span class="num">17+</span>
@@ -460,7 +468,7 @@
           </div>
         </div>
 
-        <div>
+        <div class="about-content-column stagger-group">
           <span class="section-tag">About Welcome Motor</span>
           <h2 class="section-title">Driven by Honesty, Built on Integrity</h2>
           <p class="about-lead-quote">
@@ -474,7 +482,9 @@
           </p>
 
           <div class="owner-profile-card">
-            <div class="owner-avatar">AF</div>
+            <div class="owner-avatar">
+              <img src="assets/images/arslan-farooq.jpg" alt="Arslan Farooq" class="owner-avatar-img">
+            </div>
             <div class="owner-info">
               <div class="name dynamic-owner">Arslan Farooq</div>
               <div class="role">Founder & Chief Executive • Welcome Motor</div>
@@ -490,13 +500,13 @@
        ======================================================================== -->
   <section class="section section-dark" id="reviews">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal">
         <span class="section-tag">Client Feedback</span>
         <h2 class="section-title">What Our Customers Say</h2>
         <p class="section-subtitle">Real feedback from clients who purchased their dream vehicles from Welcome Motor.</p>
       </div>
 
-      <div class="reviews-summary-card">
+      <div class="reviews-summary-card reveal">
         <div class="rating-score-box">
           <div class="rating-huge-num">4.8</div>
           <div>
@@ -565,7 +575,7 @@
        ======================================================================== -->
   <section class="section" id="contact">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal">
         <span class="section-tag">Visit Showroom</span>
         <h2 class="section-title">Get in Touch With Us</h2>
         <p class="section-subtitle">We welcome you to inspect our inventory in person or reach out through phone/WhatsApp 24/7.</p>
@@ -573,7 +583,7 @@
 
       <div class="contact-grid">
         <!-- CONTACT INFO -->
-        <div class="contact-info-panel">
+        <div class="contact-info-panel reveal">
           <div class="contact-card-item">
             <div class="contact-icon-box">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
@@ -622,7 +632,7 @@
         </div>
 
         <!-- GOOGLE MAPS EMBED -->
-        <div class="map-container-box">
+        <div class="map-container-box reveal-scale">
           <iframe 
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3321.4925760824987!2d73.07455807639556!3d33.64438313915152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38df952bf4bfad87%3A0x6b4fb6c91a0c7c64!2sRawalpindi%20Cricket%20Stadium!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s" 
             allowfullscreen="" 
@@ -638,7 +648,7 @@
   <!-- ========================================================================
        9. FOOTER
        ======================================================================== -->
-  <footer class="site-footer">
+  <footer class="site-footer reveal">
     <div class="container">
       <div class="footer-grid">
         <div>

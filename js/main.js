@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   initSettings();
   initContactForm();
   initStatsCounter();
+  initScrollProgress();
+  initScrollReveal();
 
   // Load Inventory & Featured Cars
   await loadFeaturedVehicles();
@@ -337,6 +339,7 @@ async function loadFeaturedVehicles() {
 
     if (section) section.style.display = 'block';
     container.innerHTML = featured.map((v, idx) => renderVehicleCard(v, idx)).join('');
+    refreshScrollReveal();
   } catch (err) {
     console.error('Error loading featured vehicles:', err);
   }
@@ -403,6 +406,7 @@ async function loadInventory() {
     }
 
     container.innerHTML = vehicles.map((v, idx) => renderVehicleCard(v, idx)).join('');
+    refreshScrollReveal();
   } catch (err) {
     console.error('Error loading inventory:', err);
     container.innerHTML = `<p style="color: #DC2626; text-align: center; grid-column: 1 / -1;">Unable to load inventory. Please refresh or try again.</p>`;
@@ -852,3 +856,93 @@ window.openQuickView = openQuickView;
 window.closeQuickViewModal = closeQuickViewModal;
 window.switchQuickViewThumb = switchQuickViewThumb;
 window.showToast = showToast;
+window.refreshScrollReveal = refreshScrollReveal;
+
+// ==========================================
+// SCROLL PROGRESS BAR CONTROLLER
+// ==========================================
+function initScrollProgress() {
+  const progressBar = document.getElementById('scrollProgressBar');
+  if (!progressBar) return;
+
+  let ticking = false;
+
+  const updateProgress = () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrollPercent = docHeight > 0 ? Math.min(Math.max(scrollTop / docHeight, 0), 1) : 0;
+
+    progressBar.style.transform = `scaleX(${scrollPercent})`;
+    ticking = false;
+  };
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(updateProgress);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(updateProgress);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // Initial call
+  updateProgress();
+}
+
+// ==========================================
+// SCROLL REVEAL CONTROLLER (INTERSECTION OBSERVER)
+// ==========================================
+let revealObserverInstance = null;
+
+function initScrollReveal() {
+  const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  
+  if (prefersReducedMotion) {
+    document.querySelectorAll('.reveal, .reveal-scale, .reveal-fade, .reveal-fade-up, .section-header.reveal, .stagger-group, .trust-grid, .reviews-grid, .contact-info-panel, .map-container-box, .vehicle-card').forEach(el => {
+      el.classList.add('is-revealed');
+    });
+    return;
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('.reveal, .reveal-scale, .reveal-fade, .reveal-fade-up, .section-header.reveal, .stagger-group, .trust-grid, .reviews-grid, .contact-info-panel, .map-container-box, .vehicle-card').forEach(el => {
+      el.classList.add('is-revealed');
+    });
+    return;
+  }
+
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px 0px -50px 0px',
+    threshold: 0.12
+  };
+
+  revealObserverInstance = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-revealed');
+        // Unobserve once revealed to keep animations smooth and avoid repeating
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  refreshScrollReveal();
+}
+
+function refreshScrollReveal() {
+  if (!revealObserverInstance) return;
+
+  const targets = document.querySelectorAll(
+    '.reveal:not(.is-revealed), .reveal-scale:not(.is-revealed), .reveal-fade:not(.is-revealed), .reveal-fade-up:not(.is-revealed), .section-header.reveal:not(.is-revealed), .stagger-group:not(.is-revealed), .trust-grid:not(.is-revealed), .reviews-grid:not(.is-revealed), .contact-info-panel:not(.is-revealed), .map-container-box:not(.is-revealed)'
+  );
+
+  targets.forEach(el => {
+    revealObserverInstance.observe(el);
+  });
+}

@@ -18,6 +18,11 @@
     gap: 2.5rem;
   }
 
+  .about-image-wrapper {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
   .about-badge-float {
     right: 1rem;
     bottom: -1rem;
